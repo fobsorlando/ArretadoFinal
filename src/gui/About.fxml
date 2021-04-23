@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox prefHeight="72.0" prefWidth="552.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/16">
+   <children>
+      <Label prefHeight="72.0" prefWidth="616.0" text="ARRETADO DOCES - FOBS SYSTEMS" textAlignment="CENTER" textFill="#7c4242">
+         <font>
+            <Font size="28.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="10.0" top="10.0" />
+         </padding>
+      </Label>
+   </children>
+</VBox>
