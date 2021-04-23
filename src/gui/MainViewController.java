@@ -47,7 +47,7 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemDepartamentoAction () {
-		System.out.println("Clicei no Departamento");
+		loadview("/gui/DepartamentoList.fxml");
 	}
 	
 	@FXML
@@ -75,15 +75,12 @@ public class MainViewController implements Initializable{
 		
 	}
 
-
-
-	
 	@Override
 	public void initialize(URL uri, ResourceBundle rb) {
 		
 	}
 	
-	private  synchronized void loadview (String absoluteName) {
+	private  synchronized void  loadview (String absoluteName) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox vbox = loader.load();
@@ -108,6 +105,7 @@ public class MainViewController implements Initializable{
 			mainVbox.getChildren().addAll(vbox.getChildren()); 
 		}
 		catch (IOException e ){
+			System.out.println(e.getMessage());
 			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW", e.getMessage(), AlertType.ERROR);
 		}
 	}
