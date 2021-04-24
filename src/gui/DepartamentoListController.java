@@ -91,6 +91,7 @@ public class DepartamentoListController implements Initializable{
 			// Pegar controldor da tela carregada acima
 			DepartamentoFormController controller = loader.getController();
 			controller.setDepartamento(obj);
+			controller.setDepartamentoService(new DepartamentoService()); // Inetando dependencia do servico
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
 			
 			// novo Stage pq a janela vai ser modal.
