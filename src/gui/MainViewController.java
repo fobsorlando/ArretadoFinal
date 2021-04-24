@@ -15,7 +15,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import model.services.DepartamentoService;
 
 public class MainViewController implements Initializable {
@@ -124,5 +127,8 @@ public class MainViewController implements Initializable {
 			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW", e.getMessage(), AlertType.ERROR);
 		}
 	}
+	
+	
+	
 	
 }
