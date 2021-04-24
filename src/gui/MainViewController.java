@@ -15,11 +15,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import model.services.DepartamentoService;
+import model.services.GrupoService;
+import model.services.SecaoService;
+import model.services.SubGrupoService;
 
 public class MainViewController implements Initializable {
 
@@ -62,16 +62,34 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemGrupoAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/GrupoList.fxml",(GrupoListController controller) -> {
+			controller.setGrupoService(new GrupoService());
+			controller.updateTableView();
+		});
 		
 	}
 	
 	@FXML
 	public void onMenuItemSubGrupoAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/SubGrupoList.fxml",(SubGrupoListController controller) -> {
+			controller.setSubGrupoService(new SubGrupoService());
+			controller.updateTableView();
+		});
 		
 	}
 	
 	@FXML
 	public void onMenuItemSecaoAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/SecaoList.fxml",(SecaoListController controller) -> {
+			controller.setSecaoService(new SecaoService());
+			controller.updateTableView();
+		});
 		
 	}
 	

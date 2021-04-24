@@ -30,7 +30,7 @@ import model.entities.Grupo;
 			PreparedStatement st = null;
 			try {
 					st = conn.prepareStatement("insert into Grupo "
-									+ "(no_Grupo) "
+									+ "(no_grupo) "
 									+ "values (?) ",
 									Statement.RETURN_GENERATED_KEYS
 									);
@@ -67,7 +67,7 @@ import model.entities.Grupo;
 					PreparedStatement st = null;
 			try {
 					st = conn.prepareStatement("update  Grupo set "
-									+ "no_Grupo = ? "
+									+ "no_grupo = ? "
 									+ "where id = ? "
 									);
 
@@ -182,7 +182,7 @@ import model.entities.Grupo;
 		private Grupo instantiateGrupo(ResultSet rs) throws SQLException {
 			Grupo forn = new Grupo();
 			forn.setId(rs.getInt("id"));
-			forn.setNo_grupo(rs.getString("no_Grupo"));
+			forn.setNo_grupo(rs.getString("no_grupo"));
 			return forn;
 		}
 
