@@ -48,7 +48,8 @@ public class DepartamentoListController implements Initializable{
 	@FXML
 	public void onBtNovoAction(ActionEvent event ) {
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/DepartamentoForm.fxml", parentStage);
+		Departamento obj = new Departamento(); // criar vazio
+		createDialogForm(obj,"/gui/DepartamentoForm.fxml", parentStage);
 	}
 
 	public void setDepartamentoService(DepartamentoService service) {
@@ -82,10 +83,15 @@ public class DepartamentoListController implements Initializable{
 		
 	}
 	
-	private void createDialogForm(String absoluteName, Stage parentStage ) {
+	private void createDialogForm(Departamento obj, String absoluteName, Stage parentStage ) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			// Pegar controldor da tela carregada acima
+			DepartamentoFormController controller = loader.getController();
+			controller.setDepartamento(obj);
+			controller.updateFormData(); // Carrega os dados do OBJ no formulario
 			
 			// novo Stage pq a janela vai ser modal.
 			// tambem vai ser uma nova scena
