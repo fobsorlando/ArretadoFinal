@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import model.entities.Departamento;
 import model.services.DepartamentoService;
 
-public class DepartamentoListController implements Initializable{
+public class DepartamentoListController implements Initializable, DataChangeListener{
 	
 	private DepartamentoService service;
 	
@@ -92,7 +93,10 @@ public class DepartamentoListController implements Initializable{
 			DepartamentoFormController controller = loader.getController();
 			controller.setDepartamento(obj);
 			controller.setDepartamentoService(new DepartamentoService()); // Inetando dependencia do servico
+			controller.subscribeDataChangeListner(this);// Inscrever classe  (ela mesma-this) para escutar evento ONDATACHAGED
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
+			
+			
 			
 			// novo Stage pq a janela vai ser modal.
 			// tambem vai ser uma nova scena
@@ -113,6 +117,12 @@ public class DepartamentoListController implements Initializable{
 			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
 
 		}
+	}
+
+	@Override
+	public void onDataChange() {
+		updateTableView();
+		
 	}
 
 }
