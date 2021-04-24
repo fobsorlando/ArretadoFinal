@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -18,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import model.entities.Departamento;
+import model.exceptions.ValidationException;
 import model.services.DepartamentoService;
 
 public class DepartamentoFormController implements Initializable {
@@ -34,7 +37,7 @@ public class DepartamentoFormController implements Initializable {
 	private TextField txtName;
 	
 	@FXML
-	private Label labelErrorNaame;
+	private Label labelErrorName;
 	
 	@FXML
 	private Button btSalva;
@@ -73,6 +76,9 @@ public class DepartamentoFormController implements Initializable {
 		catch (DbException e) {
 			Alerts.showAlert("Erro Salvando Ojbeto", null, e.getMessage(), AlertType.ERROR);
 		}
+		catch (ValidationException e) {
+		   setErrorMessages(e.getErrors());
+		}
 		
 	}
 
@@ -86,8 +92,24 @@ public class DepartamentoFormController implements Initializable {
 
 	private Departamento getFormData() {
 		Departamento obj = new Departamento();
+		
+		ValidationException exception = new ValidationException("Erro validação");
+	
 		obj.setId(Utils.tryParseToInt(txtId.getText()));
+		
+		if (txtName.getText() == null     ||
+		    txtName.getText().trim().equals("") ||
+		    txtName.getText().trim().length() <5 ) {
+			exception.addErrors("name", "Digite um texto valido!");
+		}
+		
 		obj.setNo_departamento(txtName.getText());
+
+	
+		if  (exception.getErrors().size() > 0 ) {
+			throw exception;
+		}
+		
 		return obj;
 	}
 
@@ -115,5 +137,15 @@ public class DepartamentoFormController implements Initializable {
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtName.setText(entidade.getNo_departamento());
 		
+	}
+	
+	private void setErrorMessages(Map <String,String> errors) {
+		
+		Set<String> fields = errors.keySet();
+		
+		if  (fields.contains("name")) {
+ 			labelErrorName.setText(errors.get("name"));
+			
+		}
 	}
 }
