@@ -3,6 +3,7 @@ package gui;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
@@ -43,12 +44,17 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemAboutAction () {
-		loadview("/gui/About.fxml");
+		loadview("/gui/About.fxml", x -> {});
 	}
 	
 	@FXML
 	public void onMenuItemDepartamentoAction () {
-		loadview2("/gui/DepartamentoList.fxml");
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/DepartamentoList.fxml",(DepartamentoListController controller) -> {
+			controller.setDepartamentoService(new DepartamentoService());
+			controller.updateTableView();
+		});
 	}
 	
 	@FXML
@@ -81,7 +87,7 @@ public class MainViewController implements Initializable {
 		
 	}
 	
-	private  synchronized void  loadview (String absoluteName) {
+	private  synchronized <T> void  loadview (String absoluteName, Consumer<T> initializingAction) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			VBox vbox = loader.load();
@@ -104,6 +110,14 @@ public class MainViewController implements Initializable {
 			// Incluir novamente o menubar e os filhos do about
 			mainVbox.getChildren().add(mainMenu);
 			mainVbox.getChildren().addAll(vbox.getChildren()); 
+			
+			// Get controler retorna o controlador do tipo que 
+			// foi passado na função loader
+			// Executa a função passada pelo loadview
+			
+			T controller = loader.getController();
+			initializingAction.accept(controller);
+			
 		}
 		catch (IOException e ){
 			System.out.println(e.getMessage());
@@ -111,41 +125,4 @@ public class MainViewController implements Initializable {
 		}
 	}
 	
-	private  synchronized void  loadview2 (String absoluteName) {
-		try {
-		
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-			VBox vbox = loader.load();
-			
-			
-			
-			// *** MANIPULADO A SCENA PRINCIPAL ***
-			// Pega Scena do main
-			Scene mainScene = Main.getMainScene();
-			
-			// salvando o content no mailvbox
-			VBox mainVbox  = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
-			// Preserva o menubar 
-			// Pega o primeiro vilho do maivbox , que é  o menu.
-			Node mainMenu = mainVbox.getChildren().get(0);
-			
-			// Excluir os filhos orginais do vbox (clear)
-			mainVbox.getChildren().clear();
-			
-			// Incluir novamente o menubar e os filhos do about
-			mainVbox.getChildren().add(mainMenu);
-			mainVbox.getChildren().addAll(vbox.getChildren());
-			
-			DepartamentoListController controller = loader.getController();
-			controller.setDepartamentoService(new DepartamentoService());
-			controller.updateTableView();
-		}
-		catch (IOException e ){
-			System.out.println(e.getMessage());
-			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW", e.getMessage(), AlertType.ERROR);
-		}
-
-	}
-
 }
