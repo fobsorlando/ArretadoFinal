@@ -6,11 +6,11 @@ import model.entities.Fornecedor;
 
 public interface FornecedorDao {
 	
-	void insert  (FornecedorDao obj);
-	void udpdate (FornecedorDao obj);
+	void insert  (Fornecedor obj);
+	void udpdate (Fornecedor obj);
 	void deleteById (Integer id);
-	FornecedorDao findByid(Integer id);
+	Fornecedor findByid(Integer id);
 	
-	List<FornecedorDao> findAll();
+	List<Fornecedor> findAll();
 
 }

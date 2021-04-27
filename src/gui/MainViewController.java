@@ -17,6 +17,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
 import model.services.DepartamentoService;
+import model.services.FornecedorService;
 import model.services.GrupoService;
 import model.services.SecaoService;
 import model.services.SubGrupoService;
@@ -95,6 +96,12 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemFornecedorAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/FornecedorList.fxml",(FornecedorListController controller) -> {
+			controller.setFornecedorService(new FornecedorService());
+			controller.updateTableView();
+		});
 		
 	}
 	

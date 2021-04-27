@@ -21,7 +21,7 @@ public class Fornecedor implements Serializable  {
 	private String nr_cep;
 	private String no_endereco;
 	private Integer nr_numero;
-	private String no_complento;
+	private String no_complemento;
 	private String no_cidade;
 	private String sg_uf;
 	private String no_observacao;
@@ -51,7 +51,7 @@ public class Fornecedor implements Serializable  {
 		this.nr_cep = nr_cep;
 		this.no_endereco = no_endereco;
 		this.nr_numero = nr_numero;
-		this.no_complento = no_complento;
+		this.no_complemento = no_complento;
 		this.no_cidade = no_cidade;
 		this.sg_uf = sg_uf;
 		this.no_observacao = no_observacao;
@@ -148,13 +148,13 @@ public class Fornecedor implements Serializable  {
 	}
 
 
-	public String getNo_complento() {
-		return no_complento;
+	public String getNo_complemento() {
+		return no_complemento;
 	}
 
 
-	public void setNo_complento(String no_complento) {
-		this.no_complento = no_complento;
+	public void setNo_complemento(String no_complemento) {
+		this.no_complemento = no_complemento;
 	}
 
 
@@ -229,7 +229,7 @@ public class Fornecedor implements Serializable  {
 		return "Fornecedor [Id=" + Id + ", no_fornecedor=" + no_fornecedor + ", no_fantasia=" + no_fantasia
 				+ ", no_contato=" + no_contato + ", no_email=" + no_email + ", nr_telefone1=" + nr_telefone1
 				+ ", nr_telefone2=" + nr_telefone2 + ", nr_cep=" + nr_cep + ", no_endereco=" + no_endereco
-				+ ", nr_numero=" + nr_numero + ", no_complento=" + no_complento + ", no_cidade=" + no_cidade
+				+ ", nr_numero=" + nr_numero + ", no_complento=" + no_complemento + ", no_cidade=" + no_cidade
 				+ ", sg_uf=" + sg_uf + ", no_observacao=" + no_observacao + "]";
 	}
 		
