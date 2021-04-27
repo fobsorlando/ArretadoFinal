@@ -19,6 +19,7 @@ import javafx.scene.layout.VBox;
 import model.services.DepartamentoService;
 import model.services.FornecedorService;
 import model.services.GrupoService;
+import model.services.ProdutoService;
 import model.services.SecaoService;
 import model.services.SubGrupoService;
 
@@ -107,6 +108,13 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	public void onMenuItemProdutoAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/ProdutoList.fxml",(ProdutoListController controller) -> {
+			controller.setProdutoService(new ProdutoService());
+			controller.updateTableView();
+		});
+		
 		
 	}
 
