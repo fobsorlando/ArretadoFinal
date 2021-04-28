@@ -1,4 +1,4 @@
-package model.dao.impl;
+/*package model.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -20,11 +20,11 @@ import model.entities.Produto;
 import model.entities.Secao;
 import model.entities.SubGrupo;
 
-public class ProdutoDaoJDBC implements ProdutoDao {
+public class ProdutoDaoJDBCBACKUP implements ProdutoDao {
 	
 	private Connection conn;
 	
-	public ProdutoDaoJDBC(Connection conn) {
+	public ProdutoDaoJDBCBACKUP(Connection conn) {
 		this.conn=conn;
 	}
 
@@ -45,7 +45,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setLong(3, obj.getCd_ean13());
 			st.setDouble(4, obj.getVl_venda());
 			st.setDouble(5, obj.getVl_custo());
-
+			st.setInt(6, obj.getDepartamento().getId());
+			st.setInt(7, obj.getSecao().getId());
+			st.setInt(8, obj.getGrupo().getId());
+			st.setInt(9, obj.getSubGrupo().getId());
+			st.setInt(10, obj.getFornecedor().getId());
 			
 			int rowsAffected = st.executeUpdate();
 			
@@ -87,7 +91,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setLong(3, obj.getCd_ean13());
 			st.setDouble(4, obj.getVl_venda());
 			st.setDouble(5, obj.getVl_custo());
-
+			st.setInt(6, obj.getDepartamento().getId());
+			st.setInt(7, obj.getSecao().getId());
+			st.setInt(8, obj.getGrupo().getId());
+			st.setInt(9, obj.getSubGrupo().getId());
+			st.setInt(10, obj.getFornecedor().getId());
 			st.setInt(11,obj.getId());
 			
 			int rowsAffected = st.executeUpdate();
@@ -134,13 +142,24 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conn.prepareStatement(
 					"select * from produto " 
+					+ "join departamento on departamento.id  = produto.id_departamento "
+					+ "join secao on secao.id = produto.id_secao "
+					+ "join grupo on grupo.id = produto.id_grupo "
+					+ "join subgrupo on subgrupo.id = produto.id_subgrupo "
+					+ "join fornecedor on fornecedor.id = produto.id_subgrupo "
 					+ "where produto.id = ?"
 					);
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			if (rs.next()) {
 				
-				Produto obj = instantiateProduto(rs);
+				Departamento dep = instantiateDepartamento(rs);
+				Secao sec = instantiateSecao(rs);
+				Grupo grp = instantiateGrupo(rs);
+				SubGrupo subG = instantiateSubGrupo(rs);
+				Fornecedor forn = instantiateFornecedor(rs);
+				
+				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn);
 
 				return obj;
 			}
@@ -156,7 +175,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 
 	}
 
-	private Produto instantiateProduto(ResultSet rs) throws SQLException {
+	private Produto instantiateProduto(ResultSet rs, Departamento dep, Secao sec, Grupo grp, SubGrupo subG,
+			Fornecedor forn) throws SQLException {
 		Produto obj = new Produto();
 		obj.setId(rs.getInt("id"));
 		obj.setNo_produto(rs.getString("no_produto"));
@@ -165,6 +185,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		obj.setVl_venda(rs.getDouble("vl_venda"));
 		obj.setVl_custo(rs.getDouble("vl_custo"));
 		
+		obj.setDepartamento(dep);
+		obj.setSecao(sec);
+		obj.setGrupo(grp);
+		obj.setSubGrupo(subG);
+		obj.setFornecedor(forn);
 		return obj;
 	}
 
@@ -211,10 +236,14 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"select "
-					+ "id, no_produto, no_produto_forn, cd_ean13, vl_venda, vl_custo, id_departamento, id_secao, id_grupo, id_subgrupo, id_fornecedor, dth_criacao::date, dth_alteracao::date "
-					+ " from produto " 
-				);
+					"select * from produto " 
+					+ "join departamento on departamento.id  = produto.id_departamento "
+					+ "join secao on secao.id = produto.id_secao "
+					+ "join grupo on grupo.id = produto.id_grupo "
+					+ "join subgrupo on subgrupo.id = produto.id_subgrupo "
+					+ "join fornecedor on fornecedor.id = produto.id_subgrupo "
+					+ "order by departamento.no_departamento"
+					);
 			
 			rs = st.executeQuery();
 			
@@ -222,8 +251,25 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			Map <Integer, Departamento> map = new HashMap<>();
 			
 			while (rs.next()) {
-	
-				Produto obj = instantiateProduto(rs);
+				// Cria um MAP como chave o Id do departamento
+				// Cria uma tabela (id e dep)
+				Departamento dep = map.get(rs.getInt("id_departamento"));
+
+				// Se não existir um Departmento instanciado, instancia. 
+				if (dep == null) {
+					dep =  instantiateDepartamento(rs);
+					// salva dep no MAP
+					map.put(rs.getInt("id_departamento"), dep);
+				}
+				
+				// Não fiz igual ao Departamento
+				// Depois vou entender pq
+				Secao sec = instantiateSecao(rs);
+				Grupo grp = instantiateGrupo(rs);
+				SubGrupo subG = instantiateSubGrupo(rs);
+				Fornecedor forn = instantiateFornecedor(rs);
+				
+				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn);
 				list.add(obj);
 			}
 			return list;
@@ -237,6 +283,61 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		}
 	}
 
+	@Override
+	public List<Produto> findByDepartamento(Departamento departamento) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		try {
+			st = conn.prepareStatement(
+					"select * from produto " 
+					+ "join departamento on departamento.id  = produto.id_departamento "
+					+ "join secao on secao.id = produto.id_secao "
+					+ "join grupo on grupo.id = produto.id_grupo "
+					+ "join subgrupo on subgrupo.id = produto.id_subgrupo "
+					+ "join fornecedor on fornecedor.id = produto.id_subgrupo "
+					+ "where produto.id_departamento = ? "
+					+ "order by departamento.no_departamento"
+					);
+			
+			st.setInt(1, departamento.getId());
+			rs = st.executeQuery();
+			
+			List <Produto> list = new ArrayList<>();
+			Map <Integer, Departamento> map = new HashMap<>();
+			
+			while (rs.next()) {
+				// Cria um MAP como chave o Id do departamento
+				// Cria uma tabela (id e dep)
+				Departamento dep = map.get(rs.getInt("id_departamento"));
 
+				// Se não existir um Departmento instanciado, instancia. 
+				if (dep == null) {
+					dep =  instantiateDepartamento(rs);
+					// salva dep no MAP
+					map.put(rs.getInt("id_departamento"), dep);
+				}
+				
+				// Não fiz igual ao Departamento
+				// Depois vou entender pq
+				Secao sec = instantiateSecao(rs);
+				Grupo grp = instantiateGrupo(rs);
+				SubGrupo subG = instantiateSubGrupo(rs);
+				Fornecedor forn = instantiateFornecedor(rs);
+				
+				//Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn);
+				Produto obj = instantiateProduto(rs,dep,null,null,null,null);
+				list.add(obj);
+			}
+			return list;
+		}
+		catch (SQLException e){
+			throw new  DbException(e.getMessage());
+		}
+		finally {
+			DB.closeStatement(st);
+			DB.closeResultSet(rs);
+		}
+	}
 
 }
+*/

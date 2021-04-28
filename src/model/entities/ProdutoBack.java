@@ -3,14 +3,13 @@ package model.entities;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class Produto implements Serializable {
+public class ProdutoBack implements Serializable {
 
 	/**
 	 * Orlando Saboia
 	 * Abril / 2021
 	 */
-	private static final long serialVersionUID = 2L;
-	
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String no_produto;
 	private String no_produto_forn;
@@ -21,10 +20,17 @@ public class Produto implements Serializable {
 	private Date dth_criacao;
 	private Date dth_alteracao;
 	
-	public Produto() {
+	private Departamento departamento;
+	private Secao secao;
+	private Grupo grupo;
+	private SubGrupo subGrupo;
+	
+	private Fornecedor fornecedor;
+	
+	public ProdutoBack() {
 		
 	}
-	public Produto(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo) {
+	public ProdutoBack(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo){
 		super();
 		this.no_produto = no_produto;
 		this.no_produto_forn = no_produto_forn;
@@ -35,7 +41,23 @@ public class Produto implements Serializable {
 		this.dth_alteracao = dth_alteracao;
 	}
  
-
+	public ProdutoBack(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo,
+			Departamento departamento, Secao secao, Grupo grupo,
+			SubGrupo subGrupo, Fornecedor fornecedor) {
+		super();
+		this.no_produto = no_produto;
+		this.no_produto_forn = no_produto_forn;
+		this.cd_ean13 = cd_ean13;
+		this.vl_venda = vl_venda;
+		this.vl_custo = vl_custo;
+		this.dth_criacao = dth_criacao;
+		this.dth_alteracao = dth_alteracao;
+		this.departamento = departamento;
+		this.secao = secao;
+		this.grupo = grupo;
+		this.subGrupo = subGrupo;
+		this.fornecedor = fornecedor;
+	}
 
 	public String getNo_produto() {
 		return no_produto;
@@ -93,6 +115,45 @@ public class Produto implements Serializable {
 		this.dth_alteracao = dth_alteracao;
 	}
 
+	public Departamento getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
+
+	public Secao getSecao() {
+		return secao;
+	}
+
+	public void setSecao(Secao secao) {
+		this.secao = secao;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public SubGrupo getSubGrupo() {
+		return subGrupo;
+	}
+
+	public void setSubGrupo(SubGrupo subGrupo) {
+		this.subGrupo = subGrupo;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
 
 	public Integer getId() {
 		return id;
@@ -118,7 +179,7 @@ public class Produto implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Produto other = (Produto) obj;
+		ProdutoBack other = (ProdutoBack) obj;
 		if (no_produto == null) {
 			if (other.no_produto != null)
 				return false;
@@ -131,7 +192,8 @@ public class Produto implements Serializable {
 	public String toString() {
 		return "Produto [id=" + id + ", no_produto=" + no_produto + ", no_produto_forn=" + no_produto_forn
 				+ ", cd_ean13=" + cd_ean13 + ", vl_venda=" + vl_venda + ", vl_custo=" + vl_custo + ", dth_criacao="
-				+ dth_criacao + ", dth_alteracao=" + dth_alteracao   + "]";
+				+ dth_criacao + ", dth_alteracao=" + dth_alteracao + ", departamento=" + departamento + ", secao="
+				+ secao + ", grupo=" + grupo + ", subGrupo=" + subGrupo + ", fornecedor=" + fornecedor + "]";
 	}
 	
 	

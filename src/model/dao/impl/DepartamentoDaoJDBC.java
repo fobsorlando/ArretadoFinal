@@ -12,7 +12,7 @@ import db.DB;
 import db.DbException;
 import model.dao.DepartamentoDao;
 import model.entities.Departamento;
-import model.entities.Produto;
+import model.entities.ProdutoBack;
 
 public class DepartamentoDaoJDBC implements DepartamentoDao {
 	

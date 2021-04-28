@@ -2,6 +2,7 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -46,10 +47,18 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 	private TableColumn<Produto, String> tableColumnName;
 	
 	@FXML
+	private TableColumn<Produto, Double> tableColumnVlVenda;
+	
+	@FXML
+	private TableColumn<Produto, Date> tableColumnDtCriacao;
+	
+	@FXML
 	private TableColumn <Produto, Produto> tableColumnREMOVE;
 	
 	@FXML
 	private TableColumn <Produto, Produto> tableColumnEDIT;
+	
+	
 
 	@FXML
 	private Button btNovo;
@@ -74,8 +83,13 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 
 	private void initializeNodes() {
 		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_departamento"));
+		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_produto"));
+		tableColumnVlVenda.setCellValueFactory(new PropertyValueFactory<>("vl_venda"));
+		Utils.formatTableColumnDouble(tableColumnVlVenda, 2);
+		tableColumnDtCriacao.setCellValueFactory(new PropertyValueFactory<>("dth_alteracao"));
+		//	Utils.formatTableColumnDate(tableColumnDtCriacao, "DD/MM/YYYY");
 
+		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 
 		// Produto acompanhar tamanho do menu
@@ -91,40 +105,40 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 		List<Produto> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
 		tableViewProduto.setItems(obsList);
-		initEditButtons(); // Acrescenta botão para alterar
-		initRemoveButtons(); // Botão para remover
+ 	    initEditButtons(); // Acrescenta botão para alterar
+ 		initRemoveButtons(); // Botão para remover
 
 	}
 
 	private void createDialogForm(Produto obj, String absoluteName, Stage parentStage) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//			Pane pane = loader.load();
-//
-//			// Pegar controldor da tela carregada acima
-//			ProdutoFormController controller = loader.getController();
-//			controller.setProduto(obj);
-//			controller.setProdutoService(new ProdutoService()); // Inetando dependencia do servico
-//			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
-//														// ONDATACHAGED
-//			controller.updateFormData(); // Carrega os dados do OBJ no formulario
-//
-//			// novo Stage pq a janela vai ser modal.
-//			// tambem vai ser uma nova scena
-//			// uma janela em cima da outra
-//
-//			Stage dialogStage = new Stage(); // novo palco
-//			dialogStage.setTitle("Incuir Produto");
-//			dialogStage.setScene(new Scene(pane)); // Nova scena, que é o pane feito acima
-//			dialogStage.setResizable(false);
-//			dialogStage.initOwner(parentStage);
-//			dialogStage.initModality(Modality.WINDOW_MODAL);
-//			dialogStage.showAndWait();
-//
-//		} catch (IOException e) {
-//			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
-//
-//		}
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
+
+			// Pegar controldor da tela carregada acima
+			ProdutoFormController controller = loader.getController();
+			controller.setProduto(obj);
+			controller.setProdutoService(new ProdutoService()); // Inetando dependencia do servico
+			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
+														// ONDATACHAGED
+			controller.updateFormData(); // Carrega os dados do OBJ no formulario
+
+			// novo Stage pq a janela vai ser modal.
+			// tambem vai ser uma nova scena
+			// uma janela em cima da outra
+
+			Stage dialogStage = new Stage(); // novo palco
+			dialogStage.setTitle("Incuir Produto");
+			dialogStage.setScene(new Scene(pane)); // Nova scena, que é o pane feito acima
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
+
+		}
 	}
 
 	@Override

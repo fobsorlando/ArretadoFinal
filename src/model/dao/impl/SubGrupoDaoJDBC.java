@@ -12,7 +12,7 @@ import db.DB;
 import db.DbException;
 import model.dao.SubGrupoDao;
 import model.entities.SubGrupo;
-import model.entities.Produto;
+import model.entities.ProdutoBack;
 
 public class SubGrupoDaoJDBC implements SubGrupoDao {
 	
