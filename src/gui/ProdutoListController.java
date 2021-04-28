@@ -86,8 +86,8 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_produto"));
 		tableColumnVlVenda.setCellValueFactory(new PropertyValueFactory<>("vl_venda"));
 		Utils.formatTableColumnDouble(tableColumnVlVenda, 2);
-		tableColumnDtCriacao.setCellValueFactory(new PropertyValueFactory<>("dth_alteracao"));
-		//	Utils.formatTableColumnDate(tableColumnDtCriacao, "DD/MM/YYYY");
+		tableColumnDtCriacao.setCellValueFactory(new PropertyValueFactory<>("dth_criacao"));
+		Utils.formatTableColumnDate(tableColumnDtCriacao, "dd/MM/YYYY");
 
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();

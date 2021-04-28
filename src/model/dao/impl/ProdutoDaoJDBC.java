@@ -1,6 +1,7 @@
 package model.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -164,6 +165,9 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		obj.setCd_ean13(rs.getLong("cd_ean13"));
 		obj.setVl_venda(rs.getDouble("vl_venda"));
 		obj.setVl_custo(rs.getDouble("vl_custo"));
+		obj.setDth_criacao(rs.getDate("dth_criacao"));	
+		//obj.setDth_criacao(new java.util.Date(rs.getTimestamp("dth_criacao").getTime()));
+		
 		
 		return obj;
 	}
@@ -212,7 +216,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		try {
 			st = conn.prepareStatement(
 					"select "
-					+ "id, no_produto, no_produto_forn, cd_ean13, vl_venda, vl_custo, id_departamento, id_secao, id_grupo, id_subgrupo, id_fornecedor, dth_criacao::date, dth_alteracao::date "
+					+ "id, no_produto, no_produto_forn, cd_ean13, vl_venda, vl_custo, id_departamento, id_secao, id_grupo, id_subgrupo, id_fornecedor, dth_criacao, dth_alteracao "
 					+ " from produto " 
 				);
 			
