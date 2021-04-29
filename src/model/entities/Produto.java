@@ -21,6 +21,9 @@ public class Produto implements Serializable {
 	private Date dth_criacao;
 	private Date dth_alteracao;
 	
+	private Departamento departamento;
+
+	
 	public Produto() {
 		
 	}
@@ -35,6 +38,19 @@ public class Produto implements Serializable {
 		this.dth_alteracao = dth_alteracao;
 	}
  
+	public Produto(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo,
+				Departamento departamento) {
+		super();
+		this.no_produto = no_produto;
+		this.no_produto_forn = no_produto_forn;
+		this.cd_ean13 = cd_ean13;
+		this.vl_venda = vl_venda;
+		this.vl_custo = vl_custo;
+		this.dth_criacao = dth_criacao;
+		this.dth_alteracao = dth_alteracao;
+		this.departamento = departamento;
+
+	}
 
 
 	public String getNo_produto() {
@@ -101,7 +117,14 @@ public class Produto implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	public Departamento getDepartamento() {
+		return departamento;
+	}
 
+	public void setDepartamento(Departamento departamento) {
+		this.departamento = departamento;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

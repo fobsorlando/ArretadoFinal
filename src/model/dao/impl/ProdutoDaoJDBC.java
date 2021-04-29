@@ -215,8 +215,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		ResultSet rs = null;
 		try {
 			st = conn.prepareStatement(
-					"select "
-					+ "id, no_produto, no_produto_forn, cd_ean13, vl_venda, vl_custo, id_departamento, id_secao, id_grupo, id_subgrupo, id_fornecedor, dth_criacao, dth_alteracao "
+					"select * "
 					+ " from produto " 
 				);
 			

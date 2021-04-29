@@ -31,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Produto;
+import model.services.DepartamentoService;
 import model.services.ProdutoService;
 
 public class ProdutoListController implements Initializable, DataChangeListener {
@@ -118,7 +119,9 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			// Pegar controldor da tela carregada acima
 			ProdutoFormController controller = loader.getController();
 			controller.setProduto(obj);
-			controller.setProdutoService(new ProdutoService()); // Inetando dependencia do servico
+			controller.setServices(new ProdutoService(), new DepartamentoService()); // Inetando dependencia do servico
+			controller.loadAssociatedObjects(); // Carregar associados (ex. departamento)
+
 			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
 														// ONDATACHAGED
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
@@ -136,7 +139,10 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
+			// colocar nos outros 
+			e.printStackTrace();
 			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
+			
 
 		}
 	}

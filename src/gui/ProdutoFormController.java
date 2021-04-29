@@ -16,16 +16,24 @@ import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Constraints;
 import gui.util.Utils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
+import model.entities.Departamento;
 import model.entities.Produto;
 import model.exceptions.ValidationException;
+import model.services.DepartamentoService;
 import model.services.ProdutoService;
 
 public class ProdutoFormController implements Initializable {
@@ -33,6 +41,8 @@ public class ProdutoFormController implements Initializable {
 	
 	private Produto entidade;
 	private ProdutoService service;
+	private DepartamentoService departamentoService;
+	
 	private List <DataChangeListener> dataChangeListners = new ArrayList<>();
 	
 	@FXML
@@ -46,6 +56,9 @@ public class ProdutoFormController implements Initializable {
 	
 	@FXML
 	private TextField txtVlVenda ;
+	
+	@FXML
+	private ComboBox<Departamento> comboBoxDepartamento;
 	
 	@FXML
 	private Label labelErrorName;
@@ -62,13 +75,17 @@ public class ProdutoFormController implements Initializable {
 	@FXML
 	private Button btCancel;
 	
+	private ObservableList<Departamento> obsList;
+	
 	
 	public void setProduto(Produto entidade) {
 		this.entidade = entidade;
 	}
 	
-	public void setProdutoService (ProdutoService service) {
+	public void setServices (ProdutoService service, DepartamentoService departamentoService) {
+	
 		this.service=service;
+		this.departamentoService=departamentoService;
 	}
 	
 	public void subscribeDataChangeListner(DataChangeListener listener) {
@@ -146,6 +163,8 @@ public class ProdutoFormController implements Initializable {
 		Constraints.setTextFieldMaxLength(txtName, 40);
 		Constraints.setTextFieldDouble(txtVlVenda);
 		Utils.formatDatePicker(dpDtCriacao, "dd/MM/yyyy");
+		
+		initializeComboBoxDepartment();
 	}
 	
 	public void updateFormData() {
@@ -160,7 +179,7 @@ public class ProdutoFormController implements Initializable {
 		    //String data = entidade.getDth_criacao().toLocaleString();
 
 
-			// Método Orlando
+			// Método Orlando	
 		    String ld = entidade.getDth_criacao().toString();
 		    LocalDate localDate = Date.valueOf(ld).toLocalDate();
 		    dpDtCriacao.setValue(localDate);
@@ -169,7 +188,22 @@ public class ProdutoFormController implements Initializable {
 			//dpDtCriacao.setValue(LocalDate.ofInstant( entidade.getDth_criacao().toInstant(), ZoneId.systemDefault()));
 		}
 		txtVlVenda.setText(String.format("%.2f",entidade.getVl_venda(),ZoneId.systemDefault()));
-		
+		if (entidade.getDepartamento() == null) {
+			comboBoxDepartamento.getSelectionModel().selectFirst();
+		}
+		else { 
+		    comboBoxDepartamento.setValue(entidade.getDepartamento());
+		}
+	}
+	
+	public void loadAssociatedObjects() {
+		if (departamentoService ==  null) {
+			throw new IllegalStateException("Departamento Nulo");
+			
+		}
+		List<Departamento> list = departamentoService.findAll();
+		obsList = FXCollections.observableArrayList(list);
+		comboBoxDepartamento.setItems(obsList);
 	}
 	
 	private void setErrorMessages(Map <String,String> errors) {
@@ -181,4 +215,17 @@ public class ProdutoFormController implements Initializable {
 			
 		}
 	}
+	
+	private void initializeComboBoxDepartment() {
+			Callback<ListView<Departamento>, ListCell<Departamento>> factory = lv -> new ListCell<Departamento>() {
+				@Override
+				protected void updateItem(Departamento item, boolean empty) {
+					super.updateItem(item, empty);
+					setText(empty ? "" : item.getNo_departamento());
+				}
+			};
+			comboBoxDepartamento.setCellFactory(factory);
+			comboBoxDepartamento.setButtonCell(factory.call(null));
+	}
+	
 }
