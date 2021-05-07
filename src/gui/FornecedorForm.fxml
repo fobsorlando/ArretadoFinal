@@ -9,12 +9,14 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane prefHeight="708.0" prefWidth="821.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FornecedorFormController">
+<AnchorPane prefHeight="695.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FornecedorFormController">
    <children>
-      <GridPane layoutX="24.0" layoutY="32.0" prefHeight="448.0" prefWidth="745.0" AnchorPane.bottomAnchor="228.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="32.0">
+      <GridPane layoutX="24.0" layoutY="35.0" prefHeight="500.0" prefWidth="778.0" AnchorPane.bottomAnchor="173.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="35.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="91.0" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="463.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="200.0" minWidth="10.0" prefWidth="147.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="349.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="85.0" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="600.0" minWidth="10.0" prefWidth="175.0" />
         </columnConstraints>
         <rowConstraints>
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -35,43 +37,48 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TextField fx:id="txtFantasia" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <TextField fx:id="txtContato" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <TextField fx:id="txtFone1" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-            <TextField fx:id="txtFone2" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-            <TextField fx:id="txtCep" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+            <TextField fx:id="txtFantasia" maxWidth="350.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <TextField fx:id="txtContato" maxWidth="350.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+            <TextField fx:id="txtFone1" maxWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <TextField fx:id="txtEmail1" maxWidth="250.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+            <TextField fx:id="txtFone2" maxWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
+            <TextField fx:id="txtCep" maxWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="7" />
             <TextField fx:id="txtEndereco" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-            <TextField fx:id="txtNumero" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-            <TextField fx:id="txtComplemento" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField fx:id="txtCidade" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <TextField fx:id="txtUF" GridPane.columnIndex="1" GridPane.rowIndex="12" />
+            <TextField fx:id="txtNumero" GridPane.columnIndex="3" GridPane.rowIndex="8" />
+            <TextField fx:id="txtComplemento" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+            <TextField fx:id="txtCidade" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+            <TextField fx:id="txtUF" maxWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <TextField fx:id="txtObservacao" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <Label text="Nome do Contato" GridPane.rowIndex="3" />
-            <Label text="E-Mail" GridPane.rowIndex="4" />
+            <Label text="E-Mail  01" GridPane.rowIndex="4" />
             <Label text="Telefone 01" GridPane.rowIndex="5" />
-            <Label text="Telefone 02" GridPane.rowIndex="6" />
+            <Label text="Telefone 02" GridPane.columnIndex="2" GridPane.rowIndex="5" />
             <Label text="CEP" GridPane.rowIndex="7" />
             <Label text="Endereço" GridPane.rowIndex="8" />
-            <Label text="Nmero" GridPane.rowIndex="9" />
-            <Label text="Complemento" GridPane.rowIndex="10" />
-            <Label text="Cidade" GridPane.rowIndex="11" />
-            <Label text="UF" GridPane.rowIndex="12" />
+            <Label text="Nmero" GridPane.columnIndex="2" GridPane.rowIndex="8" />
+            <Label text="Complemento" GridPane.rowIndex="9" />
+            <Label text="Cidade" GridPane.rowIndex="10" />
+            <Label text="UF" GridPane.rowIndex="11" />
             <Label text="Observaçao" GridPane.rowIndex="13" />
             <Label text="Nome de Fantasia" GridPane.rowIndex="2" />
             <Label text="ID" />
             <Label text="Fornecedor" GridPane.rowIndex="1" />
-            <TextField fx:id="txtId" editable="false" prefHeight="24.0" prefWidth="555.0" GridPane.columnIndex="1" />
-            <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="labelErrorName" prefHeight="16.0" prefWidth="431.0" textFill="#da0f0f" GridPane.columnIndex="1" GridPane.rowIndex="16" />
-            <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="16">
+            <TextField fx:id="txtId" editable="false" maxWidth="100.0" prefHeight="24.0" prefWidth="555.0" GridPane.columnIndex="1" />
+            <TextField fx:id="txtName" maxWidth="350.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="labelErrorName" prefHeight="16.0" prefWidth="431.0" textFill="#da0f0f" GridPane.columnIndex="1" GridPane.rowIndex="17" />
+            <HBox prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="3" GridPane.rowIndex="16">
                <children>
                   <Button fx:id="btSalva" mnemonicParsing="false" onAction="#onBtSalvaAction" text="Salvar" />
                   <Button fx:id="btCancel" mnemonicParsing="false" onAction="#onBtCancelAction" text="Cancelar" />
                </children>
             </HBox>
+            <Label text="E-Mail 02" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+            <Label text="CPF/CNPJ" GridPane.columnIndex="2" />
+            <TextField fx:id="txtCpfCnpj" GridPane.columnIndex="3" />
+            <TextField fx:id="txtEmail2" maxWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

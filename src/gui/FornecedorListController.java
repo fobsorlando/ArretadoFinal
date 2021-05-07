@@ -46,6 +46,24 @@ public class FornecedorListController implements Initializable, DataChangeListen
 	private TableColumn<Fornecedor, String> tableColumnName;
 	
 	@FXML
+	private TableColumn<Fornecedor, String> tableColumnFantasia;
+	
+	@FXML
+	private TableColumn<Fornecedor, String> tableColumnContato;
+	
+	@FXML
+	private TableColumn<Fornecedor, String> tableColumnEmail1;
+	
+	@FXML
+	private TableColumn<Fornecedor, String> tableColumnEmail2;
+	
+	@FXML
+	private TableColumn<Fornecedor, String> tableColumnFone1;
+	
+	@FXML
+	private TableColumn<Fornecedor, String> tableColumnFone2;
+	
+	@FXML
 	private TableColumn <Fornecedor, Fornecedor> tableColumnREMOVE;
 	
 	@FXML

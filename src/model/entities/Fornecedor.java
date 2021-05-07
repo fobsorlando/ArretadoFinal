@@ -15,7 +15,8 @@ public class Fornecedor implements Serializable  {
 	private String no_fornecedor;
 	private String no_fantasia;
 	private String no_contato;
-	private String no_email;
+	private String no_email1;
+	private String no_email2;
 	private String nr_telefone1;
 	private String nr_telefone2;
 	private String nr_cep;
@@ -25,6 +26,7 @@ public class Fornecedor implements Serializable  {
 	private String no_cidade;
 	private String sg_uf;
 	private String no_observacao;
+	private String nr_cpf_cnpj;
 	
 	
 	public Fornecedor() {
@@ -45,7 +47,8 @@ public class Fornecedor implements Serializable  {
 		this.no_fornecedor = no_fornecedor;
 		this.no_fantasia = no_fantasia;
 		this.no_contato = no_contato;
-		this.no_email = no_email;
+		this.no_email1 = no_email1;
+		this.no_email2 = no_email2;
 		this.nr_telefone1 = nr_telefone1;
 		this.nr_telefone2 = nr_telefone2;
 		this.nr_cep = nr_cep;
@@ -88,15 +91,23 @@ public class Fornecedor implements Serializable  {
 	}
 
 
-	public String getNo_email() {
-		return no_email;
+	public String getNo_email1() {
+		return no_email1;
 	}
 
 
-	public void setNo_email(String no_email) {
-		this.no_email = no_email;
+	public void setNo_email1(String no_email1) {
+		this.no_email1 = no_email1;
+	}
+	
+	public String getNo_email2() {
+		return no_email2;
 	}
 
+
+	public void setNo_email2(String no_email2) {
+		this.no_email2 = no_email2;
+	}
 
 	public String getNr_telefone1() {
 		return nr_telefone1;
@@ -183,10 +194,17 @@ public class Fornecedor implements Serializable  {
 	}
 
 
+	public void setNr_cpf_cgc(String nr_cpf_cnpj) {
+		this.nr_cpf_cnpj = nr_cpf_cnpj;
+	}
+	public String getNr_cpf_cnpj() {
+		return nr_cpf_cnpj;
+	}
+
+
 	public void setNo_observacao(String no_observacao) {
 		this.no_observacao = no_observacao;
 	}
-
 
 	public Integer getId() {
 		return Id;
@@ -227,7 +245,7 @@ public class Fornecedor implements Serializable  {
 	@Override
 	public String toString() {
 		return "Fornecedor [Id=" + Id + ", no_fornecedor=" + no_fornecedor + ", no_fantasia=" + no_fantasia
-				+ ", no_contato=" + no_contato + ", no_email=" + no_email + ", nr_telefone1=" + nr_telefone1
+				+ ", no_contato=" + no_contato + ", no_email=" + no_email1 + ", nr_telefone1=" + nr_telefone1
 				+ ", nr_telefone2=" + nr_telefone2 + ", nr_cep=" + nr_cep + ", no_endereco=" + no_endereco
 				+ ", nr_numero=" + nr_numero + ", no_complento=" + no_complemento + ", no_cidade=" + no_cidade
 				+ ", sg_uf=" + sg_uf + ", no_observacao=" + no_observacao + "]";

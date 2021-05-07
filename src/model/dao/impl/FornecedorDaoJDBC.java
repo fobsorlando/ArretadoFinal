@@ -32,7 +32,8 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ "(no_Fornecedor, "
 								+ " no_fantasia, "
 								+ " no_contato, "
-								+ " no_email, "
+								+ " no_email1, "
+								+ " no_email2, "
 								+ " nr_telefone1, "
 								+ " nr_telefone2, "
 								+ " nr_cep, "
@@ -42,6 +43,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ " no_cidade, "
 								+ " sg_uf, "
 								+ " no_observacao "
+								+ " nr_cpf_cnpj "
 								+ ") "
 								+ "values (?,?,?,?,?,?,?,?,?,?,?,?,?) ",
 								Statement.RETURN_GENERATED_KEYS
@@ -50,17 +52,19 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				st.setString(1, obj.getNo_fornecedor());
 				st.setString(2, obj.getNo_fantasia());
 				st.setString(3, obj.getNo_contato());
-				st.setString(4, obj.getNo_email());
-				st.setString(5, obj.getNr_telefone1());
-				st.setString(6, obj.getNr_telefone2());
-				st.setString(7, obj.getNr_cep());
-				st.setString(8, obj.getNo_endereco());
-				st.setInt(9, obj.getNr_numero());
-				st.setString(10, obj.getNo_complemento());
-				st.setString(11, obj.getNo_cidade());
-				st.setString(12, obj.getSg_uf());
-				st.setString(13, obj.getNo_observacao());
-				
+				st.setString(4, obj.getNo_email1());
+				st.setString(5, obj.getNo_email2());
+				st.setString(6, obj.getNr_telefone1());
+				st.setString(7, obj.getNr_telefone2());
+				st.setString(8, obj.getNr_cep());
+				st.setString(9, obj.getNo_endereco());
+				st.setInt(10, obj.getNr_numero());
+				st.setString(11, obj.getNo_complemento());
+				st.setString(12, obj.getNo_cidade());
+				st.setString(13, obj.getSg_uf());
+				st.setString(14, obj.getNo_observacao());
+				st.setString(15, obj.getNr_cpf_cnpj());
+								
 				int rowsAffected = st.executeUpdate();
 
 				if (rowsAffected > 0) {
@@ -94,7 +98,8 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ "no_Fornecedor = ?, "
 								+ " no_fantasaia = ?, "
 								+ " no_contato   = ?, "
-								+ " no_email     = ?, "
+								+ " no_email1     = ?, "
+								+ " no_email2     = ?, "
 								+ " nr_telefone1 = ?, "
 								+ " nr_telefone2 = ?, "
 								+ " nr_cep       = ?,  "
@@ -104,23 +109,26 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ " no_cidade    = ?, "
 								+ " sg_uf        = ?, "
 								+ " no_observacao = ? "
+								+ " nr_cpf_cnpj = ? "
 								+ "where id = ? "
 								);
 
 				st.setString(1, obj.getNo_fornecedor());
 				st.setString(2, obj.getNo_fantasia());
 				st.setString(3, obj.getNo_contato());
-				st.setString(4, obj.getNo_email());
-				st.setString(5, obj.getNr_telefone1());
-				st.setString(6, obj.getNr_telefone2());
-				st.setString(7, obj.getNr_cep());
-				st.setString(8, obj.getNo_endereco());
-				st.setInt(9, obj.getNr_numero());
-				st.setString(10, obj.getNo_complemento());
-				st.setString(11, obj.getNo_cidade());
-				st.setString(12, obj.getSg_uf());
-				st.setString(13, obj.getNo_observacao());
-				st.setInt(14,obj.getId());
+				st.setString(4, obj.getNo_email1());
+				st.setString(5, obj.getNo_email2());
+				st.setString(6, obj.getNr_telefone1());
+				st.setString(7, obj.getNr_telefone2());
+				st.setString(8, obj.getNr_cep());
+				st.setString(9, obj.getNo_endereco());
+				st.setInt(10, obj.getNr_numero());
+				st.setString(11, obj.getNo_complemento());
+				st.setString(12, obj.getNo_cidade());
+				st.setString(13, obj.getSg_uf());
+				st.setString(14, obj.getNo_observacao());
+				st.setString(15, obj.getNr_cpf_cnpj());
+				st.setInt(16,obj.getId());
 
 
 				int rowsAffected = st.executeUpdate();

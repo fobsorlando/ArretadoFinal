@@ -32,7 +32,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Produto;
 import model.services.DepartamentoService;
+import model.services.FornecedorService;
+import model.services.GrupoService;
 import model.services.ProdutoService;
+import model.services.SecaoService;
+import model.services.SubGrupoService;
 
 public class ProdutoListController implements Initializable, DataChangeListener {
 
@@ -48,7 +52,13 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 	private TableColumn<Produto, String> tableColumnName;
 	
 	@FXML
+	private TableColumn<Produto, String> tableColumnEan;
+	
+	@FXML
 	private TableColumn<Produto, Double> tableColumnVlVenda;
+	
+	@FXML
+	private TableColumn<Produto, Double> tableColumnVlCusto;
 	
 	@FXML
 	private TableColumn<Produto, Date> tableColumnDtCriacao;
@@ -56,10 +66,10 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 	@FXML
 	private TableColumn <Produto, Produto> tableColumnREMOVE;
 	
-	@FXML
+	@FXML 
 	private TableColumn <Produto, Produto> tableColumnEDIT;
 	
-	
+
 
 	@FXML
 	private Button btNovo;
@@ -87,8 +97,12 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_produto"));
 		tableColumnVlVenda.setCellValueFactory(new PropertyValueFactory<>("vl_venda"));
 		Utils.formatTableColumnDouble(tableColumnVlVenda, 2);
+		tableColumnVlCusto.setCellValueFactory(new PropertyValueFactory<>("vl_custo"));
+		Utils.formatTableColumnDouble(tableColumnVlCusto, 2);
+		
 		tableColumnDtCriacao.setCellValueFactory(new PropertyValueFactory<>("dth_criacao"));
 		Utils.formatTableColumnDate(tableColumnDtCriacao, "dd/MM/YYYY");
+		tableColumnEan.setCellValueFactory(new PropertyValueFactory<>("cd_ean13"));
 
 		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
@@ -119,11 +133,14 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			// Pegar controldor da tela carregada acima
 			ProdutoFormController controller = loader.getController();
 			controller.setProduto(obj);
-			controller.setServices(new ProdutoService(), new DepartamentoService()); // Inetando dependencia do servico
+			controller.setServices(new ProdutoService(), new DepartamentoService(),
+								   new SecaoService(), new GrupoService(),
+								   new SubGrupoService() , new FornecedorService()); // Inetando dependencia do servico
+			
 			controller.loadAssociatedObjects(); // Carregar associados (ex. departamento)
-
+						
 			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
-														// ONDATACHAGED
+												// ONDATACHAGED
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
 
 			// novo Stage pq a janela vai ser modal.

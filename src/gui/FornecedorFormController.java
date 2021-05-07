@@ -43,7 +43,10 @@ public class FornecedorFormController implements Initializable {
 	private TextField txtContato;
 	
 	@FXML
-	private TextField txtEmail;
+	private TextField txtEmail1;
+	
+	@FXML
+	private TextField txtEmail2;
 	
 	@FXML
 	private TextField txtFone1;
@@ -71,6 +74,9 @@ public class FornecedorFormController implements Initializable {
 	
 	@FXML
 	private TextField txtObservacao;
+	
+	@FXML
+	private TextField txtCpfCnpj;
 	
 	@FXML
 	private Label labelErrorName;
@@ -143,7 +149,8 @@ public class FornecedorFormController implements Initializable {
 		obj.setNo_fornecedor(txtName.getText());
 		obj.setNo_fantasia(txtFantasia.getText());
 		obj.setNo_contato(txtContato.getText());
-		obj.setNo_email(txtEmail.getText());
+		obj.setNo_email1(txtEmail1.getText());
+		obj.setNo_email2(txtEmail2.getText());
 		obj.setNr_telefone1(txtFone1.getText());
 		obj.setNr_telefone2(txtFone2.getText());
 		obj.setNr_cep(txtCep.getText());
@@ -153,6 +160,7 @@ public class FornecedorFormController implements Initializable {
 		obj.setNo_cidade(txtCidade.getText());
 		obj.setSg_uf(txtUF.getText());
 		obj.setNo_observacao(txtObservacao.getText());
+		obj.setNr_cpf_cgc(txtCpfCnpj.getText());
 		
 	
 		if  (exception.getErrors().size() > 0 ) {
@@ -187,7 +195,8 @@ public class FornecedorFormController implements Initializable {
 		txtName.setText(entidade.getNo_fornecedor());
 		txtFantasia.setText(entidade.getNo_fantasia());
 		txtContato.setText(entidade.getNo_contato());
-		txtEmail.setText(entidade.getNo_email());
+		txtEmail1.setText(entidade.getNo_email1());
+		txtEmail2.setText(entidade.getNo_email2());
 		txtFone1.setText(entidade.getNr_telefone1());
 		txtFone2.setText(entidade.getNr_telefone2());
 		txtCep.setText(entidade.getNr_cep());
@@ -197,6 +206,7 @@ public class FornecedorFormController implements Initializable {
 		txtCidade.setText(entidade.getNo_cidade());
 		txtUF.setText(entidade.getSg_uf());
 		txtObservacao.setText(entidade.getNo_observacao());
+		txtCpfCnpj.setText(entidade.getNr_cpf_cnpj());
 	}
 	
 	private void setErrorMessages(Map <String,String> errors) {

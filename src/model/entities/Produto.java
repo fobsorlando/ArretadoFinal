@@ -22,6 +22,11 @@ public class Produto implements Serializable {
 	private Date dth_alteracao;
 	
 	private Departamento departamento;
+	private Secao secao;
+	private Grupo grupo;
+	private SubGrupo subGrupo;
+	
+	private Fornecedor fornecedor;
 
 	
 	public Produto() {
@@ -39,7 +44,8 @@ public class Produto implements Serializable {
 	}
  
 	public Produto(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo,
-				Departamento departamento) {
+			Departamento departamento, Secao secao, Grupo grupo,
+			SubGrupo subGrupo, Fornecedor fornecedor) {
 		super();
 		this.no_produto = no_produto;
 		this.no_produto_forn = no_produto_forn;
@@ -49,7 +55,10 @@ public class Produto implements Serializable {
 		this.dth_criacao = dth_criacao;
 		this.dth_alteracao = dth_alteracao;
 		this.departamento = departamento;
-
+		this.secao = secao;
+		this.grupo = grupo;
+		this.subGrupo = subGrupo;
+		this.fornecedor = fornecedor;
 	}
 
 
@@ -125,6 +134,39 @@ public class Produto implements Serializable {
 	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
+	
+	public Secao getSecao() {
+		return secao;
+	}
+
+	public void setSecao(Secao secao) {
+		this.secao = secao;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public SubGrupo getSubGrupo() {
+		return subGrupo;
+	}
+
+	public void setSubGrupo(SubGrupo subGrupo) {
+		this.subGrupo = subGrupo;
+	}
+
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
