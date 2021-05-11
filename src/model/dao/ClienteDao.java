@@ -12,7 +12,10 @@ public interface ClienteDao {
 	void deleteById (Integer id);
 	Cliente findByid(Integer id);
 	
+	
 	List<Cliente> findAll();
+	List<Cliente> findByNome(String no_cliente);
+
 	
 
 }

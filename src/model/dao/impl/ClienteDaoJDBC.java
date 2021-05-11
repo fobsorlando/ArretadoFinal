@@ -59,11 +59,6 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setString(16, obj.getNo_bairro());
 
 				
-				
-				
-				
-				
-
 				int rowsAffected = st.executeUpdate();
 
 				if (rowsAffected > 0) {
@@ -93,13 +88,45 @@ public class ClienteDaoJDBC implements ClienteDao {
 	public void udpdate(Cliente obj) {
 				PreparedStatement st = null;
 		try {
-				st = conn.prepareStatement("update  departamento set "
-								+ "no_departamento = ? "
-								+ "where id = ? "
+				st = conn.prepareStatement("update  cliente set "
+							+ "( no_cliente = ?, "
+							+ " no_apelido = ?, "
+							+ " dt_nascimento = ?, "
+							+ " fl_sexo = ?, "
+							+ " no_email1 = ?, "
+							+ " no_email2 = ?, "
+							+ " nr_telefone1 = ?, "
+							+ " nr_telefone2 = ?, "
+							+ " nr_cep = ? , "
+							+ " no_endereco = ?, "
+							+ " nr_numero = ?, "
+							+ " no_complemento = ?, "
+							+ " no_cidade = ?, "
+							+ " sg_uf = ?, "
+							+ " no_observacao = ? "
+							+ " no_bairro = ?) "
+							+ "where id = ? "
 								);
 
-				st.setString(1, obj.getNo_departamento());
-				 st.setInt(2,obj.getId());
+				st.setString(1, obj.getNo_cliente());
+				st.setString(2, obj.getNo_apelido());
+				st.setDate(3,obj.getDt_nascimento());
+				st.setString(4, obj.getFl_sexo());
+				st.setString(5, obj.getNo_email1());
+				st.setString(6, obj.getNo_email2());
+				st.setString(7, obj.getNr_telefone1());
+				st.setString(8, obj.getNr_telefone2());
+				st.setString(9, obj.getNr_cep());
+				st.setString(10, obj.getNo_endereco());
+				st.setInt(11, obj.getNr_numero());
+				st.setString(12, obj.getNo_complemento());
+				st.setString(13, obj.getNo_cidade());
+				st.setString(14, obj.getSg_uf());
+				st.setString(15, obj.getNo_observacao());
+				st.setString(16, obj.getNo_bairro());
+				
+				
+				st.setInt(2,obj.getId());
 
 
 				int rowsAffected = st.executeUpdate();
@@ -183,7 +210,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		ResultSet rs = null;
 		try {
 				st = conn.prepareStatement(
-								"select * from departamento  "
+								"select * from cliente  "
 								);
 				
 				rs = st.executeQuery();
@@ -211,6 +238,43 @@ public class ClienteDaoJDBC implements ClienteDao {
 		forn.setId(rs.getInt("id"));
 		forn.setNo_cliente(rs.getString("no_Cliente"));
 		return forn;
+	}
+
+	@Override
+	public List<Cliente> findByNome(String no_cliente) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+				st = conn.prepareStatement(
+				  			  "select * from cliente  "
+							+ " where no_cliente like ?"
+								);
+				st.setString(1, ("%" + no_cliente + "%"));
+				//st.setString(1, no_cliente);
+				
+				
+
+				rs = st.executeQuery();
+				
+				System.out.println("Veja ---> " + rs.getRow());
+				List <Cliente> list = new ArrayList<>();
+
+				while (rs.next()) {
+					Cliente obj = instantiateCliente(rs);
+
+					list.add(obj);
+				}
+				return list;
+		}
+		catch (SQLException e){
+				throw new  DbException(e.getMessage());
+		}
+		finally {
+				DB.closeStatement(st);
+				DB.closeResultSet(rs);
+		}
+
 	}
 
 

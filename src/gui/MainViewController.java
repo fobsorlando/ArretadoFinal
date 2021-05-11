@@ -16,6 +16,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.ClienteService;
 import model.services.DepartamentoService;
 import model.services.FornecedorService;
 import model.services.GrupoService;
@@ -42,6 +43,9 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private MenuItem menuItemProduto;
+	
+	@FXML
+	private MenuItem menuItemCadastro;
 	
 	@FXML
 	private MenuItem menuItemAbout;
@@ -118,6 +122,17 @@ public class MainViewController implements Initializable {
 		
 	}
 
+	@FXML
+	public void onMenuItemClienteAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/ClienteList.fxml",(ClienteListController controller) -> {
+			controller.setClienteService(new ClienteService());
+			controller.updateTableView();
+		});
+		
+		
+	}
 	@Override
 	public void initialize(URL uri, ResourceBundle rb) {
 		
