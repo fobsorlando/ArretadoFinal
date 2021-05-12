@@ -30,7 +30,16 @@ public class Cliente implements Serializable  {
 	private Date dth_criacao;
 	private Date dth_aleracao;
 	
+	private UF uf;
+
 	
+	
+	public UF getUF() {
+		return uf;
+	}
+	public void setUF(UF uf) {
+		this.uf = uf;
+	}
 	public Integer getId() {
 		return id;
 	}

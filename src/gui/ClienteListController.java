@@ -32,6 +32,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Cliente;
 import model.services.ClienteService;
+import model.services.UFService;
 
 public class ClienteListController implements Initializable, DataChangeListener {
 
@@ -138,34 +139,37 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	}
 
 	private void createDialogForm(Cliente obj, String absoluteName, Stage parentStage) {
-//		try {
-//			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//			Pane pane = loader.load();
-//
-//			// Pegar controldor da tela carregada acima
-//			ClienteFormController controller = loader.getController();
-//			controller.setCliente(obj);
-//			controller.setClienteService(new ClienteService()); // Inetando dependencia do servico
-//			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
-//														// ONDATACHAGED
-//			controller.updateFormData(); // Carrega os dados do OBJ no formulario
-//
-//			// novo Stage pq a janela vai ser modal.
-//			// tambem vai ser uma nova scena
-//			// uma janela em cima da outra
-//
-//			Stage dialogStage = new Stage(); // novo palco
-//			dialogStage.setTitle("Incuir Cliente");
-//			dialogStage.setScene(new Scene(pane)); // Nova scena, que é o pane feito acima
-//			dialogStage.setResizable(false);
-//			dialogStage.initOwner(parentStage);
-//			dialogStage.initModality(Modality.WINDOW_MODAL);
-//			dialogStage.showAndWait();
-//
-//		} catch (IOException e) {
-//			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
-//
-//		}
+		try {
+			
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			Pane pane = loader.load();
+
+			// Pegar controldor da tela carregada acima
+			ClienteFormController controller = loader.getController();
+			controller.setCliente(obj);
+			controller.setServices(new ClienteService(), new UFService()); // Inetando dependencia do servico
+			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
+														// ONDATACHAGED
+			controller.updateFormData(); // Carrega os dados do OBJ no formulario
+
+			// novo Stage pq a janela vai ser modal.
+			// tambem vai ser uma nova scena
+			// uma janela em cima da outra
+
+			Stage dialogStage = new Stage(); // novo palco
+			dialogStage.setTitle("Incuir Cliente");
+			dialogStage.setScene(new Scene(pane)); // Nova scena, que é o pane feito acima
+			dialogStage.setResizable(false);
+			dialogStage.initOwner(parentStage);
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.showAndWait();
+
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
+
+		}
 	}
 
 	@Override

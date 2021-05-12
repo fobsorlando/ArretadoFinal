@@ -32,7 +32,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 							+ " (no_cliente, no_apelido, dt_nascimento, fl_sexo, "
 							+ " no_email1, no_email2, nr_telefone1, nr_telefone2, "
 							+ " nr_cep, no_endereco, nr_numero, no_complemento, "
-							+ " no_cidade, sg_uf, no_observacao no_bairro) "
+							+ " no_cidade, sg_uf, no_observacao, no_bairro) "
 							+ " values  "
 							+  " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ",
 								Statement.RETURN_GENERATED_KEYS

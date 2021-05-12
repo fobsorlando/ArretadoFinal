@@ -8,6 +8,7 @@ import model.dao.impl.GrupoDaoJDBC;
 import model.dao.impl.ProdutoDaoJDBC;
 import model.dao.impl.SecaoDaoJDBC;
 import model.dao.impl.SubGrupoDaoJDBC;
+import model.dao.impl.UFDaoJDBC;
 
 public class DaoFactory {
 	
@@ -44,6 +45,12 @@ public class DaoFactory {
 		
 		return new ClienteDaoJDBC(DB.getConnection());
 	}
+	
+	public static UFDao createUFDao() {
+		
+		return new UFDaoJDBC(DB.getConnection());
+	}
+
 
 
 }
