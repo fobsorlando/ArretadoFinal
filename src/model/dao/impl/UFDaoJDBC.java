@@ -32,7 +32,7 @@ public class UFDaoJDBC implements UFDao {
 		ResultSet rs = null;
 		try {
 				st = conn.prepareStatement(
-								"select * from UF  "
+								"select * from unidade_federacao  "
 								);
 				
 				rs = st.executeQuery();
@@ -58,7 +58,7 @@ public class UFDaoJDBC implements UFDao {
 	private UF instantiateUF(ResultSet rs) throws SQLException {
 		UF forn = new UF();
 		forn.setSg_uf(rs.getString("sg_uf"));
-		forn.setNo_unidade(rs.getString("no_unidade_federacao"));
+		forn.setNo_unidade(rs.getString("no_unidade"));
 		return forn;
 	}
 

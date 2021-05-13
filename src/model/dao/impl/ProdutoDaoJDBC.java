@@ -46,6 +46,11 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setLong(3, obj.getCd_ean13());
 			st.setDouble(4, obj.getVl_venda());
 			st.setDouble(5, obj.getVl_custo());
+			st.setInt(6, obj.getDepartamento().getId());
+			st.setInt(7, obj.getSecao().getId());
+			st.setInt(8, obj.getGrupo().getId());
+			st.setInt(9, obj.getSubGrupo().getId());
+			st.setInt(10, obj.getFornecedor().getId());
 
 			
 			int rowsAffected = st.executeUpdate();

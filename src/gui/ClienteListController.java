@@ -51,7 +51,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	private TableColumn<Cliente, String> tableColumnApelido;
 	
 	@FXML
-	private TableColumn<Cliente, String> tableColumnContato;
+	private TableColumn<Cliente, String> tableColumnSexo;
 	
 	@FXML
 	private TableColumn<Cliente, String> tableColumnEmail1;
@@ -64,6 +64,30 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	
 	@FXML
 	private TableColumn<Cliente, String> tableColumnFone2;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnCep;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnEndereco;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnNumero;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumncomplemento;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnCidade;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnBairro;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnObservacao;
+	
+	@FXML
+	private TableColumn<Cliente, String> tableColumnDocumento;
 	
 	@FXML
 	private TextField  txtFindByNome;
@@ -117,6 +141,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_cliente"));
 		tableColumnApelido.setCellValueFactory(new PropertyValueFactory<>("no_apelido"));
+		tableColumnBairro.setCellValueFactory(new PropertyValueFactory<>("no_bairro"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 
@@ -149,8 +174,11 @@ public class ClienteListController implements Initializable, DataChangeListener 
 			ClienteFormController controller = loader.getController();
 			controller.setCliente(obj);
 			controller.setServices(new ClienteService(), new UFService()); // Inetando dependencia do servico
+
+			controller.loadAssociatedObjects(); // Carregar associados (ex. departamento)
+											// ONDATACHAGED
 			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
-														// ONDATACHAGED
+
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
 
 			// novo Stage pq a janela vai ser modal.

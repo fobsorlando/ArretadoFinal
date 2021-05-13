@@ -3,7 +3,6 @@ package gui;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -31,11 +30,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import model.entities.Cliente;
-import model.entities.Departamento;
-import model.entities.Fornecedor;
-import model.entities.Grupo;
-import model.entities.Secao;
-import model.entities.SubGrupo;
 import model.entities.UF;
 import model.exceptions.ValidationException;
 import model.services.ClienteService;
@@ -157,6 +151,7 @@ public class ClienteFormController implements Initializable {
 			
 		}
 		catch (DbException e) {
+			System.out.println(e.getMessage());
 			Alerts.showAlert("Erro Salvando Ojbeto", null, e.getMessage(), AlertType.ERROR);
 		}
 		catch (ValidationException e) {
@@ -207,7 +202,7 @@ public class ClienteFormController implements Initializable {
 	    obj.setFl_sexo(txtSexo.getText());
 	    
 	    obj.setNo_email1(txtEmail1.getText());
-	    obj.setNo_email1(txtEmail2.getText());
+	    obj.setNo_email2(txtEmail2.getText());
 	    
 	    obj.setNr_telefone1(txtTelefone1.getText());
 	    obj.setNr_telefone2(txtTelefone2.getText());
@@ -272,7 +267,6 @@ public class ClienteFormController implements Initializable {
 		txtName.setText(entidade.getNo_cliente());
 		txtApelido.setText(entidade.getNo_apelido());
 		Locale.setDefault(Locale.US);
-		System.out.println("Passei 1");
 		if (entidade.getDt_nascimento() != null) {
 		    String data = entidade.getDt_nascimento().toLocaleString();
 
@@ -288,6 +282,8 @@ public class ClienteFormController implements Initializable {
 		//txtVlVenda.setText(String.format("%.2f",entidade.getVl_venda(),ZoneId.systemDefault()));
 		//txtVlCusto.setText(String.format("%.2f",entidade.getVl_custo(),ZoneId.systemDefault()));
 
+		System.out.println("Olhe ---> " + entidade.getUF());
+		
 		if (entidade.getUF() == null) {
 			comboBoxUF.getSelectionModel().selectFirst();
 		}
@@ -321,8 +317,8 @@ public class ClienteFormController implements Initializable {
 			throw new IllegalStateException("Departamento Nulo");
 			
 		}
-		List<UF> listDep = UFService.findAll();
-		obsListUF = FXCollections.observableArrayList(listDep);
+		List<UF> listUF = UFService.findAll();
+		obsListUF = FXCollections.observableArrayList(listUF);
 		comboBoxUF.setItems(obsListUF);
 		
 	
@@ -347,15 +343,15 @@ public class ClienteFormController implements Initializable {
 	}
 	
 	private void initializeComboBoxUF() {
-			Callback<ListView<UF>, ListCell<UF>> factoryDep = lv -> new ListCell<UF>() {
+			Callback<ListView<UF>, ListCell<UF>> factoryUF = lv -> new ListCell<UF>() {
 				@Override
 				protected void updateItem(UF item, boolean empty) {
 					super.updateItem(item, empty);
 					setText(empty ? "" : item.getNo_unidade());
 				}
 			};
-			comboBoxUF.setCellFactory(factoryDep);
-			comboBoxUF.setButtonCell(factoryDep.call(null));
+			comboBoxUF.setCellFactory(factoryUF);
+			comboBoxUF.setButtonCell(factoryUF.call(null));
 			
 	}
 	

@@ -12,7 +12,13 @@ import db.DB;
 import db.DbException;
 import model.dao.ClienteDao;
 import model.entities.Cliente;
-import model.entities.ProdutoBack;
+import model.entities.Departamento;
+import model.entities.Fornecedor;
+import model.entities.Grupo;
+import model.entities.Produto;
+import model.entities.Secao;
+import model.entities.SubGrupo;
+import model.entities.UF;
 
 public class ClienteDaoJDBC implements ClienteDao {
 	
@@ -23,7 +29,37 @@ public class ClienteDaoJDBC implements ClienteDao {
     public ClienteDaoJDBC(Connection conn) {
                 this.conn=conn;
     }
-
+	private Cliente instantiateCliente(ResultSet rs, UF uf) 
+			  throws SQLException {
+		Cliente obj = new Cliente();
+		obj.setId(rs.getInt("id"));
+		obj.setNo_cliente(rs.getString("no_cliente"));
+		obj.setNo_apelido(rs.getString("no_apelido"));
+		//obj.setDt_nascimento((rs.getTimestamp("dt_nascimento").getTime()));
+		obj.setFl_sexo(rs.getString("fl_sexo"));
+		obj.setNo_email1(rs.getString("no_email1"));
+		obj.setNo_email2(rs.getString("no_email2"));
+		obj.setNr_telefone1(rs.getString("nr_telefone1"));
+		obj.setNr_telefone2(rs.getString("nr_telefone2"));
+		obj.setNr_cep(rs.getString("nr_cep"));
+		obj.setNo_endereco(rs.getString("no_endereco"));
+		obj.setNr_numero(rs.getInt("nr_numero"));
+		obj.setNo_complemento(rs.getString("no_complemento"));
+		obj.setNo_cidade(rs.getString("no_cidade"));
+		obj.setUF(uf);
+		obj.setNo_observacao(rs.getString("no_observacao"));
+		obj.setNo_bairro(rs.getString("no_bairro"));
+		
+		return obj;
+	}
+    
+	private UF instantiateUF(ResultSet rs) throws SQLException {
+		UF uf = new UF();
+		uf.setSg_uf(rs.getString("sg_uf"));
+		uf.setNo_unidade(rs.getString("no_unidade"));
+		return uf;
+	}
+	
 	@Override
 	public void insert(Cliente obj) {
 		PreparedStatement st = null;
@@ -54,7 +90,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setString(12, obj.getNo_complemento());
 				
 				st.setString(13, obj.getNo_cidade());
-				st.setString(14, obj.getSg_uf());
+				st.setString(14, obj.getUF().getSg_uf());
 				st.setString(15, obj.getNo_observacao());
 				st.setString(16, obj.getNo_bairro());
 
@@ -89,7 +125,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 				PreparedStatement st = null;
 		try {
 				st = conn.prepareStatement("update  cliente set "
-							+ "( no_cliente = ?, "
+							+ "no_cliente = ?, "
 							+ " no_apelido = ?, "
 							+ " dt_nascimento = ?, "
 							+ " fl_sexo = ?, "
@@ -103,8 +139,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 							+ " no_complemento = ?, "
 							+ " no_cidade = ?, "
 							+ " sg_uf = ?, "
-							+ " no_observacao = ? "
-							+ " no_bairro = ?) "
+							+ " no_observacao = ?, "
+							+ " no_bairro = ? "
 							+ "where id = ? "
 								);
 
@@ -121,12 +157,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setInt(11, obj.getNr_numero());
 				st.setString(12, obj.getNo_complemento());
 				st.setString(13, obj.getNo_cidade());
-				st.setString(14, obj.getSg_uf());
+				st.setString(14, obj.getUF().getSg_uf());
 				st.setString(15, obj.getNo_observacao());
 				st.setString(16, obj.getNo_bairro());
 				
 				
-				st.setInt(2,obj.getId());
+				st.setInt(17,obj.getId());
 
 
 				int rowsAffected = st.executeUpdate();
@@ -152,7 +188,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 	public void deleteById(Integer id) {
 		PreparedStatement st = null;
 		try {
-				st = conn.prepareStatement("delete from departamento  "
+				st = conn.prepareStatement("delete from cliente  "
 								+ "where id = ?"
 								);
 
@@ -181,14 +217,16 @@ public class ClienteDaoJDBC implements ClienteDao {
 		ResultSet rs = null;
 		try {
 				st = conn.prepareStatement(
-								"select * from departamento  "
+								"select * from cliente  "
 								+ "where id = ?"
 								);
 				st.setInt(1, id);
 				rs = st.executeQuery();
 				if (rs.next()) {
-					Cliente obj = instantiateCliente(rs);
-
+					//Cliente obj = instantiateCliente(rs);
+					UF uf = instantiateUF(rs);
+					
+					Cliente obj = instantiateCliente(rs,uf);
 					return obj;
 				}
 				return null;
@@ -210,15 +248,19 @@ public class ClienteDaoJDBC implements ClienteDao {
 		ResultSet rs = null;
 		try {
 				st = conn.prepareStatement(
-								"select * from cliente  "
+								"select * from cliente "
+								+ "left join unidade_federacao "
+								+ "on  unidade_federacao.sg_uf = cliente.sg_uf"
 								);
 				
 				rs = st.executeQuery();
 				List <Cliente> list = new ArrayList<>();
 
 				while (rs.next()) {
-					Cliente obj = instantiateCliente(rs);
-
+				//	Cliente obj = instantiateCliente(rs);
+					UF uf = instantiateUF(rs);
+					
+					Cliente obj = instantiateCliente(rs,uf);
 					list.add(obj);
 				}
 				return list;
