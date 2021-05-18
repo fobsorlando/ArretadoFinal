@@ -6,6 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.swing.text.MaskFormatter;
+
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.DatePicker;
@@ -43,6 +45,21 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	// Retira traços e pontos do CEP
+	public static String textToCEP(String str) {
+		try {
+			int vcep = Integer.valueOf(str.trim());
+			String vcep1 = String.format("%08d%n",vcep);
+			MaskFormatter fx = new MaskFormatter("##.###-###");
+			fx.setValueContainsLiteralCharacters(false);
+			String output=fx.valueToString(vcep1);
+			return output;
+		} catch (Exception e) {
+			return "00.000-000";
+		}
+	}
+
 
 	public static <T> void formatTableColumnDate(TableColumn<T, Date> tableColumn, String format) {
 		tableColumn.setCellFactory(column -> {

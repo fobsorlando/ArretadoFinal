@@ -35,7 +35,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		obj.setId(rs.getInt("id"));
 		obj.setNo_cliente(rs.getString("no_cliente"));
 		obj.setNo_apelido(rs.getString("no_apelido"));
-		//obj.setDt_nascimento((rs.getTimestamp("dt_nascimento").getTime()));
+		obj.setDt_nascimento(rs.getDate("dt_nascimento"));
 		obj.setFl_sexo(rs.getString("fl_sexo"));
 		obj.setNo_email1(rs.getString("no_email1"));
 		obj.setNo_email2(rs.getString("no_email2"));
@@ -49,7 +49,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		obj.setUF(uf);
 		obj.setNo_observacao(rs.getString("no_observacao"));
 		obj.setNo_bairro(rs.getString("no_bairro"));
-		
+		obj.setNr_documento(rs.getString("nr_documento"));
 		return obj;
 	}
     
@@ -68,7 +68,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 							+ " (no_cliente, no_apelido, dt_nascimento, fl_sexo, "
 							+ " no_email1, no_email2, nr_telefone1, nr_telefone2, "
 							+ " nr_cep, no_endereco, nr_numero, no_complemento, "
-							+ " no_cidade, sg_uf, no_observacao, no_bairro) "
+							+ " no_cidade, sg_uf, no_observacao, no_bairro, nr_documento) "
 							+ " values  "
 							+  " (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ",
 								Statement.RETURN_GENERATED_KEYS
@@ -93,6 +93,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setString(14, obj.getUF().getSg_uf());
 				st.setString(15, obj.getNo_observacao());
 				st.setString(16, obj.getNo_bairro());
+				st.setString(17,obj.getNr_documento());
 
 				
 				int rowsAffected = st.executeUpdate();
@@ -140,7 +141,8 @@ public class ClienteDaoJDBC implements ClienteDao {
 							+ " no_cidade = ?, "
 							+ " sg_uf = ?, "
 							+ " no_observacao = ?, "
-							+ " no_bairro = ? "
+							+ " no_bairro = ? , "
+							+ " nr_documento = ? "
 							+ "where id = ? "
 								);
 
@@ -160,9 +162,11 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setString(14, obj.getUF().getSg_uf());
 				st.setString(15, obj.getNo_observacao());
 				st.setString(16, obj.getNo_bairro());
+				st.setString(17, obj.getNr_documento());
+
 				
 				
-				st.setInt(17,obj.getId());
+				st.setInt(18,obj.getId());
 
 
 				int rowsAffected = st.executeUpdate();

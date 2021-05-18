@@ -39,7 +39,6 @@
          <children>
             <Label text="ID" />
             <Label text="Nome" GridPane.rowIndex="1" />
-            <TextField fx:id="txtId" editable="false" maxWidth="100.0" GridPane.columnIndex="1" />
             <TextField fx:id="txtName" GridPane.columnIndex="1" GridPane.rowIndex="1" />
             <ComboBox fx:id="comboBoxUF" prefHeight="24.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="12" />
             <Label fx:id="labelErrorName" prefHeight="16.0" prefWidth="431.0" textFill="#da0f0f" GridPane.columnIndex="1" GridPane.rowIndex="15" />
@@ -128,6 +127,21 @@
             </GridPane>
             <Label text="Observaçao" GridPane.rowIndex="13" />
             <TextField fx:id="txtObservacao" GridPane.columnIndex="1" GridPane.rowIndex="13" />
+            <GridPane GridPane.columnIndex="1">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="78.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="369.0" minWidth="10.0" prefWidth="369.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <TextField fx:id="txtId" editable="false" maxWidth="100.0" />
+                  <TextField fx:id="txtDoc" GridPane.columnIndex="2" />
+                  <Label text="CPF ou CNPJ" GridPane.columnIndex="1" />
+               </children>
+            </GridPane>
          </children>
       </GridPane>
    </children>

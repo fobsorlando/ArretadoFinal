@@ -13,6 +13,7 @@ public class Cliente implements Serializable  {
 	private Integer id;
 	private String no_cliente;
 	private String no_apelido;
+	private String nr_documento;
 	private Date dt_nascimento;
 	private String fl_sexo;
 	private String no_email1;
@@ -33,6 +34,13 @@ public class Cliente implements Serializable  {
 	private UF uf;
 
 	
+	
+	public String getNr_documento() {
+		return nr_documento;
+	}
+	public void setNr_documento(String nr_documento) {
+		this.nr_documento = nr_documento;
+	}
 	
 	public UF getUF() {
 		return uf;

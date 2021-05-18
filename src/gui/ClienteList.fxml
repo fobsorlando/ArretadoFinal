@@ -51,7 +51,7 @@
             <TableColumn fx:id="tableColumncomplemento" prefWidth="75.0" text="Column X" visible="false" />
           <TableColumn fx:id="tableColumnID" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="tableColumnName" prefWidth="400.0" text="Nome do Cliente" />
-            <TableColumn fx:id="tableColumnApelido" prefWidth="91.0" text="Apelido" />
+            <TableColumn fx:id="tableColumnDoc" prefWidth="91.0" text="Documento" />
             <TableColumn fx:id="tableColumnEDIT" prefWidth="84.0" />
             <TableColumn fx:id="tableColumnREMOVE" prefWidth="75.0" />
             <TableColumn fx:id="tableColumnBairro" prefWidth="75.0" text="Column X" visible="false" />
@@ -64,6 +64,7 @@
             <TableColumn fx:id="tableColumnFone1" prefWidth="75.0" text="Column X" visible="false" />
             <TableColumn fx:id="tableColumnFone2" prefWidth="75.0" text="Column X" visible="false" />
             <TableColumn fx:id="tableColumnNumero" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnApelido" prefWidth="75.0" text="Column X" visible="false" />
         </columns>
       </TableView>
    </children>

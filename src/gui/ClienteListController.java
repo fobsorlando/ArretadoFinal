@@ -51,6 +51,9 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	private TableColumn<Cliente, String> tableColumnApelido;
 	
 	@FXML
+	private TableColumn<Cliente, String> tableColumnDoc;
+	
+	@FXML
 	private TableColumn<Cliente, String> tableColumnSexo;
 	
 	@FXML
@@ -141,6 +144,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_cliente"));
 		tableColumnApelido.setCellValueFactory(new PropertyValueFactory<>("no_apelido"));
+		tableColumnDoc.setCellValueFactory(new PropertyValueFactory<>("nr_documento"));
 		tableColumnBairro.setCellValueFactory(new PropertyValueFactory<>("no_bairro"));
 
 		Stage stage = (Stage) Main.getMainScene().getWindow();
