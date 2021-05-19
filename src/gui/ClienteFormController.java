@@ -210,10 +210,28 @@ public class ClienteFormController implements Initializable {
 	    
 	    obj.setNo_email1(txtEmail1.getText());
 	    obj.setNo_email2(txtEmail2.getText());
-	    obj.setNr_telefone1(txtTelefone1.getText());
-	    obj.setNr_telefone2(txtTelefone2.getText());
-	    // preciso criar função para CEP 
 	    
+	    if   (txtTelefone1.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
+			 exception.addErrors("name", "Digite apenas numeros no TELEFONE 1!");
+	    }
+	    
+	    if   (txtTelefone2.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
+			 exception.addErrors("name", "Digite apenas numeros no TELEFONE 2!");
+	    }
+	    if   ((txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
+	    	  (txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 11 ))  {
+			 exception.addErrors("name", "Digite Telefone 2  Vádido! ");
+	    }
+	    if   ((txtTelefone2.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
+		    	  (txtTelefone2.getText().replace("(","").replace(")","").replace("-","").length() != 11 ))  {
+				 exception.addErrors("name", "Digite Telefone 2  Vádido! ");
+		    }
+	    obj.setNr_cep(txtCep.getText().replace("-","").replace(".",""));
+
+	    
+	    obj.setNr_telefone1(txtTelefone1.getText().replace("(","").replace(")","").replace("-",""));
+	    obj.setNr_telefone2(txtTelefone2.getText().replace("(","").replace(")","").replace("-",""));
+    
 	    if   (txtCep.getText().replace("-","").replace(".","").matches("[0-9]+") == false) {
 			 exception.addErrors("name", "Digite apenas numeros no CEP!");
 	    }
@@ -253,7 +271,7 @@ public class ClienteFormController implements Initializable {
 		Constraints.setTextFieldInteger(txtId);
 		Constraints.setTextFieldMaxLength(txtName, 100);
 		Constraints.setTextFieldMaxLength(txtApelido, 100);
-		Constraints.setTextFieldMaxLength(txtTelefone1, 13);
+		Constraints.setTextFieldMaxLength(txtTelefone1, 14);
 		Constraints.setTextFieldMaxLength(txtTelefone1, 14);
 		Constraints.setTextFieldMaxLength(txtCep, 10);
 //		Constraints.setTextFieldMaxLength(txtEan, 13);
@@ -276,7 +294,8 @@ public class ClienteFormController implements Initializable {
 		txtId.setText(String.valueOf(entidade.getId()));
 		txtName.setText(entidade.getNo_cliente());
 		txtApelido.setText(entidade.getNo_apelido());
-		txtDoc.setText(entidade.getNr_documento());
+		txtDoc.setText(Utils.textToCpfCnpj(entidade.getNr_documento()));
+		
 		Locale.setDefault(Locale.US);
 		if (entidade.getDt_nascimento() != null) {
 		    String data = entidade.getDt_nascimento().toLocaleString();
@@ -294,6 +313,8 @@ public class ClienteFormController implements Initializable {
 
 	    // Format máscara do CEP
 		txtCep.setText(Utils.textToCEP(entidade.getNr_cep()));
+		
+		
 	    
 		if (entidade.getUF() == null) {
 			comboBoxUF.getSelectionModel().selectFirst();
@@ -306,8 +327,9 @@ public class ClienteFormController implements Initializable {
 		txtEmail1.setText(entidade.getNo_email1());
 		txtEmail2.setText(entidade.getNo_email2());
 		
-		txtTelefone1.setText(entidade.getNr_telefone1());
-		txtTelefone2.setText(entidade.getNr_telefone2());
+		txtTelefone1.setText(Utils.textToFone(entidade.getNr_telefone1()));
+		txtTelefone2.setText(Utils.textToFone(entidade.getNr_telefone2()));
+		
 		
 //		txtCep.setText(entidade.getNr_cep());
 		txtEndereco.setText(entidade.getNo_endereco());
