@@ -3,7 +3,7 @@ package model.entities;
 import java.io.Serializable;
 import java.sql.Date;
 
-public class UF implements Serializable  {
+public class Unidade implements Serializable  {
 	
 	/**
 	 * Orlando Sabóia - FOBS
@@ -11,25 +11,25 @@ public class UF implements Serializable  {
 	 */
 	
 	private static final long serialVersionUID = 1L;
-	private String sg_uf;
+	private String sg_unidade;
 	private String no_unidade;
 	
-	public UF () {
+	public Unidade () {
 		
 	}
 
-	public UF(String sg_uf, String no_unidade) {
+	public Unidade(String sg_unidade, String no_unidade) {
 		super();
-		this.sg_uf = sg_uf;
+		this.sg_unidade = sg_unidade;
 		this.no_unidade = no_unidade;
 	}
 
-	public String getSg_uf() {
-		return sg_uf;
+	public String getSg_unidade() {
+		return sg_unidade;
 	}
 
-	public void setSg_uf(String sg_uf) {
-		this.sg_uf = sg_uf;
+	public void setSg_unidade(String sg_unidade) {
+		this.sg_unidade = sg_unidade;
 	}
 
 	public String getNo_unidade() {
@@ -44,8 +44,7 @@ public class UF implements Serializable  {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((no_unidade == null) ? 0 : no_unidade.hashCode());
-		result = prime * result + ((sg_uf == null) ? 0 : sg_uf.hashCode());
+		result = prime * result + ((sg_unidade == null) ? 0 : sg_unidade.hashCode());
 		return result;
 	}
 
@@ -57,23 +56,20 @@ public class UF implements Serializable  {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UF other = (UF) obj;
-		if (no_unidade == null) {
-			if (other.no_unidade != null)
+		Unidade other = (Unidade) obj;
+		if (sg_unidade == null) {
+			if (other.sg_unidade != null)
 				return false;
-		} else if (!no_unidade.equals(other.no_unidade))
-			return false;
-		if (sg_uf == null) {
-			if (other.sg_uf != null)
-				return false;
-		} else if (!sg_uf.equals(other.sg_uf))
+		} else if (!sg_unidade.equals(other.sg_unidade))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return no_unidade;
+		return "unidade [sg_unidade=" + sg_unidade + ", no_unidade=" + no_unidade + "]";
 	}
+
+
 
 }

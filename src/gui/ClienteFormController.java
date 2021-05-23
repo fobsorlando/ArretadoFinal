@@ -10,8 +10,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.text.MaskFormatter;
-
 import db.DbException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
@@ -32,9 +30,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.util.Callback;
 import model.entities.Cliente;
+import model.entities.Sexo;
 import model.entities.UF;
 import model.exceptions.ValidationException;
 import model.services.ClienteService;
+import model.services.SexoService;
 import model.services.UFService;
 
 public class ClienteFormController implements Initializable {
@@ -45,7 +45,9 @@ public class ClienteFormController implements Initializable {
 	
 	private UFService UFService;
 	private UF uf;
-
+	
+	private SexoService sexoService;
+	private Sexo sexo;
 
 	private List <DataChangeListener> dataChangeListners = new ArrayList<>();
 	
@@ -102,7 +104,8 @@ public class ClienteFormController implements Initializable {
 
 	@FXML
 	private ComboBox<UF> comboBoxUF;
-	
+	@FXML
+	private ComboBox<Sexo> comboBoxSexo;
 	
 	@FXML
 	private Label labelErrorName;
@@ -120,20 +123,21 @@ public class ClienteFormController implements Initializable {
 	private Button btCancel;
 	
 	private ObservableList<UF> obsListUF;
+	private ObservableList<Sexo> obsListSexo;
 
-
-	
 	
 	public void setCliente(Cliente entidade) {
 		this.entidade = entidade;
 		
 	}
 	
-	public void setServices (ClienteService service, UFService UFService)
+	public void setServices (ClienteService service, UFService UFService,
+							 SexoService sexoService)
 						      {
 	
 		this.service=service;
 		this.UFService=UFService;
+		this.sexoService=sexoService;
 	}
 	
 	public void subscribeDataChangeListner(DataChangeListener listener) {
@@ -189,7 +193,8 @@ public class ClienteFormController implements Initializable {
 		obj.setNo_cliente(txtName.getText());
 		obj.setNo_apelido(txtApelido.getText());
 		
-		obj.setNr_documento(txtDoc.getText());
+		
+		obj.setNr_documento(txtDoc.getText().replace(".", "").replace("/", "").replace("-", ""));
 	
 		
 		if (dpDtNascimento.getValue() == null) {
@@ -206,26 +211,29 @@ public class ClienteFormController implements Initializable {
 //			exception.addErrors("name", "Digite um valor valido!");
 //	    }
 //	    
-	    obj.setFl_sexo(txtSexo.getText());
+	   // obj.setFl_sexo(txtSexo.getText());
 	    
 	    obj.setNo_email1(txtEmail1.getText());
 	    obj.setNo_email2(txtEmail2.getText());
-	    
-	    if   (txtTelefone1.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
-			 exception.addErrors("name", "Digite apenas numeros no TELEFONE 1!");
+	   	    
+	    if   (txtTelefone1.getText().trim().replace("(","").replace(")","").replace("-","").length() >2 ) {
+		    if   (txtTelefone1.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
+				 exception.addErrors("name", "Digite apenas numeros no TELEFONE 1!");
+		    }
+	    	if   ((txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
+	    			(txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 11 ))  {
+	    		exception.addErrors("name", "Digite Telefone 1  Vádido! ");
+	    	}
 	    }
-	    
-	    if   (txtTelefone2.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
-			 exception.addErrors("name", "Digite apenas numeros no TELEFONE 2!");
-	    }
-	    if   ((txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
-	    	  (txtTelefone1.getText().replace("(","").replace(")","").replace("-","").length() != 11 ))  {
-			 exception.addErrors("name", "Digite Telefone 2  Vádido! ");
-	    }
-	    if   ((txtTelefone2.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
+	    if   (txtTelefone2.getText().trim().replace("(","").replace(")","").replace("-","").length() >2  ) {
+		    if   (txtTelefone2.getText().replace("(","").replace(")","").replace("-","").matches("[0-9]+") == false) {
+				 exception.addErrors("name", "Digite apenas numeros no TELEFONE 2!");
+		    }
+	    	if   ((txtTelefone2.getText().replace("(","").replace(")","").replace("-","").length() != 10 )  &&
 		    	  (txtTelefone2.getText().replace("(","").replace(")","").replace("-","").length() != 11 ))  {
 				 exception.addErrors("name", "Digite Telefone 2  Vádido! ");
 		    }
+	    }
 	    obj.setNr_cep(txtCep.getText().replace("-","").replace(".",""));
 
 	    
@@ -243,6 +251,9 @@ public class ClienteFormController implements Initializable {
 	    obj.setNo_bairro(txtBairro.getText());
 	    
 	    obj.setUF(comboBoxUF.getValue());
+	    obj.setSexo(comboBoxSexo.getValue());
+	    
+	    System.out.println("Sexo " + comboBoxSexo.getValue());
 	    
 	    obj.setNo_observacao(txtObservacao.getText());
 
@@ -281,6 +292,7 @@ public class ClienteFormController implements Initializable {
 		
 		
 		initializeComboBoxUF();
+		initializeComboBoxSexo();
 
 
 		
@@ -314,16 +326,23 @@ public class ClienteFormController implements Initializable {
 	    // Format máscara do CEP
 		txtCep.setText(Utils.textToCEP(entidade.getNr_cep()));
 		
-		
-	    
+		UF ufs = new UF("PI","PIAUI");
+	
 		if (entidade.getUF() == null) {
-			comboBoxUF.getSelectionModel().selectFirst();
+			comboBoxUF.setValue(ufs);
 		}
 		else { 
 		    comboBoxUF.setValue(entidade.getUF());
 		}
 		
-		txtSexo.setText(entidade.getFl_sexo());
+		if (entidade.getSexo() == null) {
+			comboBoxSexo.getSelectionModel().selectFirst();
+		}
+		else { 
+		    comboBoxSexo.setValue(entidade.getSexo());
+		}
+		
+		//txtSexo.setText(entidade.getFl_sexo());
 		txtEmail1.setText(entidade.getNo_email1());
 		txtEmail2.setText(entidade.getNo_email2());
 		
@@ -354,6 +373,13 @@ public class ClienteFormController implements Initializable {
 		obsListUF = FXCollections.observableArrayList(listUF);
 		comboBoxUF.setItems(obsListUF);
 		
+		if (sexoService ==  null) {
+			throw new IllegalStateException("Sexo Nulo");
+			
+		}
+		List<Sexo> listSexo = sexoService.findAll();
+		obsListSexo = FXCollections.observableArrayList(listSexo);
+		comboBoxSexo.setItems(obsListSexo);
 	
 	}
 	
@@ -387,5 +413,18 @@ public class ClienteFormController implements Initializable {
 			comboBoxUF.setButtonCell(factoryUF.call(null));
 			
 	}
-	
+	private void initializeComboBoxSexo() {
+		Callback<ListView<Sexo>, ListCell<Sexo>> factorySexo = lv -> new ListCell<Sexo>() {
+			@Override
+			protected void updateItem(Sexo item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getNo_sexo());
+			}
+		};
+		comboBoxSexo.setCellFactory(factorySexo);
+		comboBoxSexo.setButtonCell(factorySexo.call(null));
+		
 }
+
+}
+

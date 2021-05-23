@@ -4,46 +4,40 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import db.DB;
 import db.DbException;
-import model.dao.UFDao;
-import model.entities.UF;
-import model.entities.ProdutoBack;
+import model.dao.SexoDao;
+import model.entities.Sexo;
 
-public class UFDaoJDBC implements UFDao {
+public class SexoDaoJDBC implements SexoDao {
 	
 
 
     private Connection conn;
 
-    public UFDaoJDBC(Connection conn) {
+    public SexoDaoJDBC(Connection conn) {
                 this.conn=conn;
     }
 
 
 
 	@Override
-	public List<UF> findAll() {
+	public List<Sexo> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		try {
 				st = conn.prepareStatement(
-								"select * from unidade_federacao  "
-								+ " order by "
-								+ " (case  when sg_uf='PI' then '0' " 
-								+ "        when sg_uf='MA' then '1' " 
-								+ " else no_unidade end)"
+								"select * from sexo  "
 								);
 				
 				rs = st.executeQuery();
-				List <UF> list = new ArrayList<>();
+				List <Sexo> list = new ArrayList<>();
 
 				while (rs.next()) {
-					UF obj = instantiateUF(rs);
+					Sexo obj = instantiateSexo(rs);
 
 					list.add(obj);
 				}
@@ -59,10 +53,10 @@ public class UFDaoJDBC implements UFDao {
 
 	}
 
-	private UF instantiateUF(ResultSet rs) throws SQLException {
-		UF forn = new UF();
-		forn.setSg_uf(rs.getString("sg_uf"));
-		forn.setNo_unidade(rs.getString("no_unidade"));
+	private Sexo instantiateSexo(ResultSet rs) throws SQLException {
+		Sexo forn = new Sexo();
+		forn.setSg_sexo(rs.getString("sg_sexo"));
+		forn.setNo_sexo(rs.getString("no_sexo"));
 		return forn;
 	}
 

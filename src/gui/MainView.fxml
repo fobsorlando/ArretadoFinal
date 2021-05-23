@@ -19,6 +19,7 @@
                         <MenuItem fx:id="menuItemSubGrupo" mnemonicParsing="false" onAction="#onMenuItemSubGrupoAction" text="SubGrupo" />
                         <MenuItem fx:id="menuItemSecao" mnemonicParsing="false" onAction="#onMenuItemSecaoAction" text="Seçao" />
                         <MenuItem fx:id="menuItemFornecedor" mnemonicParsing="false" onAction="#onMenuItemFornecedorAction" text="Fornecedor" />
+                        <MenuItem fx:id="menuItemUnidade" mnemonicParsing="false" onAction="#onMenuItemUnidadeAction" text="Unidade de Medida" />
                         <MenuItem fx:id="menuItemProduto" mnemonicParsing="false" onAction="#onMenuItemProdutoAction" text="Produto" />
                   </items>
                 </Menu>

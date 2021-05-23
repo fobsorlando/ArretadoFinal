@@ -53,7 +53,6 @@
             <Label text="UF" GridPane.rowIndex="12" />
             <Label text="E-Mail1" GridPane.rowIndex="5" />
             <Label text="Telefone 1" GridPane.rowIndex="6" />
-            <TextField fx:id="txtSexo" maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
             <Label text="Apelido" GridPane.rowIndex="2" />
             <TextField fx:id="txtApelido" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             <DatePicker fx:id="dpDtNascimento" GridPane.columnIndex="1" GridPane.rowIndex="3" />
@@ -142,6 +141,7 @@
                   <Label text="CPF ou CNPJ" GridPane.columnIndex="1" />
                </children>
             </GridPane>
+            <ComboBox fx:id="comboBoxSexo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
          </children>
       </GridPane>
    </children>

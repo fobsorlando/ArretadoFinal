@@ -62,6 +62,11 @@ public class Utils {
 
 	// Formata TELEFONE para exibição
 	public static String textToFone(String str) {
+		if (str != null) {
+			if (str.length() < 10) {
+				return "";
+			}
+		}
 		String output = "ERRO";
 		try {
 			if (str.trim().length() == 11) {
@@ -97,26 +102,21 @@ public class Utils {
 
 	// Formata TELEFONE para exibição
 	public static String textToCpfCnpj(String str) {
+ 
+
 		String output = "ERRO";
 		try {
-			if (str.trim().length() == 11) {
-				
-				String cpf1 = str.trim().substring(0,3 );
-				String cpf2 = str.trim().substring(3, 6);
-				String cpf3 = str.trim().substring(6, 9);
-				String digito =str.trim().substring(9, 11);
-				output= cpf1 + "." + cpf2 + "." + cpf3 + '-' + digito;
-
+			if (str.trim().length() <= 11) {
+				String doc = String.format("%11s", str).replace(' ', '0');
+	            MaskFormatter mask = new MaskFormatter("###.###.###-##");
+	            mask.setValueContainsLiteralCharacters(false);
+	            output = mask.valueToString(doc);
 			} 
-			else if (str.trim().length() == 14) {
-				String cnpj1 = str.trim().substring(0,2 );
-				String cnpj2 = str.trim().substring(2, 5);
-				String cnpj3 = str.trim().substring(5, 8);
-				String cnpj4 = str.trim().substring(8, 12);
-				String digito =str.trim().substring(12, 14);
-				
-				output= cnpj1 + "." + cnpj2 + "." + cnpj3 + "." + cnpj4 + '-' + digito;
-
+			else if (str.trim().length() >= 11) {
+				String doc = String.format("%14s", str).replace(' ', '0');
+	            MaskFormatter mask = new MaskFormatter("##.###.###/####-##");
+	            mask.setValueContainsLiteralCharacters(false);
+	            output = mask.valueToString(doc);
 
 			}
 			else {

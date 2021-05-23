@@ -32,6 +32,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Cliente;
 import model.services.ClienteService;
+import model.services.SexoService;
 import model.services.UFService;
 
 public class ClienteListController implements Initializable, DataChangeListener {
@@ -160,6 +161,9 @@ public class ClienteListController implements Initializable, DataChangeListener 
 		}
 		
 		List<Cliente> list = service.findAll();
+
+
+
 		obsList = FXCollections.observableArrayList(list);
 		tableViewCliente.setItems(obsList);
 		initEditButtons(); // Acrescenta botão para alterar
@@ -177,7 +181,7 @@ public class ClienteListController implements Initializable, DataChangeListener 
 			// Pegar controldor da tela carregada acima
 			ClienteFormController controller = loader.getController();
 			controller.setCliente(obj);
-			controller.setServices(new ClienteService(), new UFService()); // Inetando dependencia do servico
+			controller.setServices(new ClienteService(), new UFService(), new SexoService()); // Inetando dependencia do servico
 
 			controller.loadAssociatedObjects(); // Carregar associados (ex. departamento)
 											// ONDATACHAGED

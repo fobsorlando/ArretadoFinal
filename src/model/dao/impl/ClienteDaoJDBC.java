@@ -12,12 +12,7 @@ import db.DB;
 import db.DbException;
 import model.dao.ClienteDao;
 import model.entities.Cliente;
-import model.entities.Departamento;
-import model.entities.Fornecedor;
-import model.entities.Grupo;
-import model.entities.Produto;
-import model.entities.Secao;
-import model.entities.SubGrupo;
+import model.entities.Sexo;
 import model.entities.UF;
 
 public class ClienteDaoJDBC implements ClienteDao {
@@ -29,14 +24,14 @@ public class ClienteDaoJDBC implements ClienteDao {
     public ClienteDaoJDBC(Connection conn) {
                 this.conn=conn;
     }
-	private Cliente instantiateCliente(ResultSet rs, UF uf) 
+	private Cliente instantiateCliente(ResultSet rs, UF uf, Sexo sexo) 
 			  throws SQLException {
 		Cliente obj = new Cliente();
 		obj.setId(rs.getInt("id"));
 		obj.setNo_cliente(rs.getString("no_cliente"));
 		obj.setNo_apelido(rs.getString("no_apelido"));
 		obj.setDt_nascimento(rs.getDate("dt_nascimento"));
-		obj.setFl_sexo(rs.getString("fl_sexo"));
+		//obj.setFl_sexo(rs.getString("fl_sexo"));
 		obj.setNo_email1(rs.getString("no_email1"));
 		obj.setNo_email2(rs.getString("no_email2"));
 		obj.setNr_telefone1(rs.getString("nr_telefone1"));
@@ -47,6 +42,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 		obj.setNo_complemento(rs.getString("no_complemento"));
 		obj.setNo_cidade(rs.getString("no_cidade"));
 		obj.setUF(uf);
+		obj.setSexo(sexo);
 		obj.setNo_observacao(rs.getString("no_observacao"));
 		obj.setNo_bairro(rs.getString("no_bairro"));
 		obj.setNr_documento(rs.getString("nr_documento"));
@@ -59,7 +55,12 @@ public class ClienteDaoJDBC implements ClienteDao {
 		uf.setNo_unidade(rs.getString("no_unidade"));
 		return uf;
 	}
-	
+	private Sexo instantiateSexo(ResultSet rs) throws SQLException {
+		Sexo sexo = new Sexo();
+		sexo.setSg_sexo(rs.getString("sg_sexo"));
+		sexo.setNo_sexo(rs.getString("no_sexo"));
+		return sexo;
+	}
 	@Override
 	public void insert(Cliente obj) {
 		PreparedStatement st = null;
@@ -77,7 +78,7 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st.setString(1, obj.getNo_cliente());
 				st.setString(2, obj.getNo_apelido());
 				st.setDate(3, obj.getDt_nascimento());
-				st.setString(4, obj.getFl_sexo());
+				st.setString(4, obj.getSexo().getSg_sexo());
 				
 				st.setString(5, obj.getNo_email1());
 				st.setString(6, obj.getNo_email2());
@@ -145,11 +146,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 							+ " nr_documento = ? "
 							+ "where id = ? "
 								);
-
 				st.setString(1, obj.getNo_cliente());
 				st.setString(2, obj.getNo_apelido());
 				st.setDate(3,obj.getDt_nascimento());
-				st.setString(4, obj.getFl_sexo());
+				st.setString(4, obj.getSexo().getSg_sexo());
 				st.setString(5, obj.getNo_email1());
 				st.setString(6, obj.getNo_email2());
 				st.setString(7, obj.getNr_telefone1());
@@ -229,8 +229,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 				if (rs.next()) {
 					//Cliente obj = instantiateCliente(rs);
 					UF uf = instantiateUF(rs);
+					Sexo sexo = instantiateSexo(rs);
 					
-					Cliente obj = instantiateCliente(rs,uf);
+					Cliente obj = instantiateCliente(rs,uf,sexo);
 					return obj;
 				}
 				return null;
@@ -254,7 +255,9 @@ public class ClienteDaoJDBC implements ClienteDao {
 				st = conn.prepareStatement(
 								"select * from cliente "
 								+ "left join unidade_federacao "
-								+ "on  unidade_federacao.sg_uf = cliente.sg_uf"
+								+ "on  unidade_federacao.sg_uf = cliente.sg_uf "
+								+ "left join sexo "
+								+ " on sexo.sg_sexo = cliente.fl_sexo"
 								);
 				
 				rs = st.executeQuery();
@@ -263,8 +266,10 @@ public class ClienteDaoJDBC implements ClienteDao {
 				while (rs.next()) {
 				//	Cliente obj = instantiateCliente(rs);
 					UF uf = instantiateUF(rs);
+					Sexo sexo = instantiateSexo(rs);
+
 					
-					Cliente obj = instantiateCliente(rs,uf);
+					Cliente obj = instantiateCliente(rs,uf,sexo);
 					list.add(obj);
 				}
 				return list;

@@ -5,7 +5,11 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -22,14 +26,45 @@
       <ToolBar prefHeight="40.0" prefWidth="200.0">
         <items>
           <Button fx:id="btNovo" mnemonicParsing="false" onAction="#onBtNovoAction" text="Inserir" />
+            <GridPane prefHeight="0.0" prefWidth="776.0">
+              <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="10.0" prefWidth="24.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="253.0" minWidth="0.0" prefWidth="60.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="700.0" minWidth="10.0" prefWidth="619.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="602.0" minWidth="8.0" prefWidth="8.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Label text="Nome" GridPane.columnIndex="1" />
+                  <TextField fx:id="txtFindByNome" prefHeight="24.0" prefWidth="612.0" GridPane.columnIndex="2" />
+                  <Button fx:id="btPesquisa" mnemonicParsing="false" onAction="#onBtPesquisaAction" text="Pesquisar" GridPane.columnIndex="4" />
+               </children>
+            </GridPane>
         </items>
       </ToolBar>
       <TableView fx:id="tableViewFornecedor" prefHeight="417.0" prefWidth="689.0">
         <columns>
+            <TableColumn fx:id="tableColumnContato" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnEmail1" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnEmail2" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnFantasia" prefWidth="75.0" text="Column X" visible="false" />
           <TableColumn fx:id="tableColumnID" prefWidth="75.0" text="ID" />
-          <TableColumn fx:id="tableColumnName" prefWidth="400.0" text="SubGrupo" />
+          <TableColumn fx:id="tableColumnName" prefWidth="400.0" text="Razao Social" />
             <TableColumn fx:id="tableColumnEDIT" prefWidth="100.0" />
             <TableColumn fx:id="tableColumnREMOVE" prefWidth="75.0" />
+            <TableColumn fx:id="tableColumnFone1" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnFone2" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnBairro" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnCep" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnCidade" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnDocumento" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnEndereco" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnNumero" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumnObservacao" prefWidth="75.0" text="Column X" visible="false" />
+            <TableColumn fx:id="tableColumncomplemento" prefWidth="75.0" text="Column X" visible="false" />
         </columns>
       </TableView>
    </children>

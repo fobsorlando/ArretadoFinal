@@ -23,6 +23,7 @@ import model.services.GrupoService;
 import model.services.ProdutoService;
 import model.services.SecaoService;
 import model.services.SubGrupoService;
+import model.services.UnidadeService;
 
 public class MainViewController implements Initializable {
 
@@ -40,6 +41,9 @@ public class MainViewController implements Initializable {
 	
 	@FXML
 	private MenuItem menuItemFornecedor;
+	
+	@FXML
+	private MenuItem menuItemUnidade;
 	
 	@FXML
 	private MenuItem menuItemProduto;
@@ -105,6 +109,17 @@ public class MainViewController implements Initializable {
 		// usando expressão lambda
 		loadview("/gui/FornecedorList.fxml",(FornecedorListController controller) -> {
 			controller.setFornecedorService(new FornecedorService());
+			controller.updateTableView();
+		});
+		
+	}
+	
+	@FXML
+	public void onMenuItemUnidadeAction () {
+		// vai passar a FUNÇÃO DE INICIALIZAÇÃO como parametro
+		// usando expressão lambda
+		loadview("/gui/UnidadeList.fxml",(UnidadeListController controller) -> {
+			controller.setUnidadeService(new UnidadeService());
 			controller.updateTableView();
 		});
 		

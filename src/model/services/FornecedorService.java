@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.FornecedorDao;
+import model.entities.Cliente;
 import model.entities.Fornecedor;
 
 public class FornecedorService {
@@ -23,6 +24,12 @@ public class FornecedorService {
 		else {
 			dao.udpdate(obj);
 		}
+	}
+	
+	public List<Fornecedor> findByNome(String no_fornecedor) {
+		
+		return dao.findByNome(no_fornecedor);
+		
 	}
 
 	public void remove(Fornecedor obj) {

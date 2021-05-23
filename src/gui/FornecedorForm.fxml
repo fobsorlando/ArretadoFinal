@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -50,7 +51,6 @@
             <TextField fx:id="txtNumero" GridPane.columnIndex="3" GridPane.rowIndex="8" />
             <TextField fx:id="txtComplemento" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <TextField fx:id="txtCidade" GridPane.columnIndex="1" GridPane.rowIndex="10" />
-            <TextField fx:id="txtUF" maxWidth="50.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
             <TextField fx:id="txtObservacao" GridPane.columnIndex="1" GridPane.rowIndex="13" />
             <Label text="Nome do Contato" GridPane.rowIndex="3" />
             <Label text="E-Mail  01" GridPane.rowIndex="4" />
@@ -77,8 +77,9 @@
             </HBox>
             <Label text="E-Mail 02" GridPane.columnIndex="2" GridPane.rowIndex="4" />
             <Label text="CPF/CNPJ" GridPane.columnIndex="2" />
-            <TextField fx:id="txtCpfCnpj" GridPane.columnIndex="3" />
+            <TextField fx:id="txtDocumento" GridPane.columnIndex="3" />
             <TextField fx:id="txtEmail2" maxWidth="250.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+            <ComboBox fx:id="comboBoxUF" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
          </children>
       </GridPane>
    </children>

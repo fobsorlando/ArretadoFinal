@@ -11,7 +11,10 @@ import java.util.List;
 import db.DB;
 import db.DbException;
 import model.dao.FornecedorDao;
+import model.entities.Cliente;
 import model.entities.Fornecedor;
+import model.entities.Sexo;
+import model.entities.UF;
 
 public class FornecedorDaoJDBC implements FornecedorDao {
 	
@@ -23,8 +26,35 @@ public class FornecedorDaoJDBC implements FornecedorDao {
                 this.conn=conn;
     }
 
-	@Override
-
+	private Fornecedor instantiateFornecedor(ResultSet rs, UF uf) 
+			  throws SQLException {
+		Fornecedor obj = new Fornecedor();
+		obj.setId(rs.getInt("id"));
+		obj.setNo_fornecedor(rs.getString("no_fornecedor"));
+		obj.setNo_fantasia(rs.getString("no_fantasia"));
+		obj.setNo_email1(rs.getString("no_email1"));
+		obj.setNo_email2(rs.getString("no_email2"));
+		obj.setNr_telefone1(rs.getString("nr_telefone1"));
+		obj.setNr_telefone2(rs.getString("nr_telefone2"));
+		obj.setNo_contato(rs.getString("no_contato"));
+		obj.setNr_cep(rs.getString("nr_cep"));
+		obj.setNo_endereco(rs.getString("no_endereco"));
+		obj.setNr_numero(rs.getInt("nr_numero"));
+		obj.setNo_complemento(rs.getString("no_complemento"));
+		obj.setNo_cidade(rs.getString("no_cidade"));
+		obj.setUf(uf);
+		obj.setNo_observacao(rs.getString("no_observacao"));
+		obj.setNr_documento(rs.getString("nr_documento"));
+		return obj;
+	}
+	private UF instantiateUF(ResultSet rs) throws SQLException {
+		UF uf = new UF();
+		uf.setSg_uf(rs.getString("sg_uf"));
+		uf.setNo_unidade(rs.getString("no_unidade"));
+		return uf;
+	}
+	
+    @Override
 	public void insert(Fornecedor obj) {
 		PreparedStatement st = null;
 		try {
@@ -42,10 +72,10 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ " no_complemento, "
 								+ " no_cidade, "
 								+ " sg_uf, "
-								+ " no_observacao "
-								+ " nr_cpf_cnpj "
+								+ " no_observacao, "
+								+ " nr_documento "
 								+ ") "
-								+ "values (?,?,?,?,?,?,?,?,?,?,?,?,?) ",
+								+ "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ",
 								Statement.RETURN_GENERATED_KEYS
 								);
 
@@ -62,8 +92,9 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				st.setString(11, obj.getNo_complemento());
 				st.setString(12, obj.getNo_cidade());
 				st.setString(13, obj.getSg_uf());
+				st.setString(13, obj.getUf().getSg_uf());
 				st.setString(14, obj.getNo_observacao());
-				st.setString(15, obj.getNr_cpf_cnpj());
+				st.setString(15, obj.getNr_documento());
 								
 				int rowsAffected = st.executeUpdate();
 
@@ -96,7 +127,7 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 		try {
 				st = conn.prepareStatement("update  Fornecedor set "
 								+ "no_Fornecedor = ?, "
-								+ " no_fantasaia = ?, "
+								+ " no_fantasia = ?, "
 								+ " no_contato   = ?, "
 								+ " no_email1     = ?, "
 								+ " no_email2     = ?, "
@@ -108,8 +139,8 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 								+ " no_complemento = ?, "
 								+ " no_cidade    = ?, "
 								+ " sg_uf        = ?, "
-								+ " no_observacao = ? "
-								+ " nr_cpf_cnpj = ? "
+								+ " no_observacao = ?, "
+								+ " nr_documento = ? "
 								+ "where id = ? "
 								);
 
@@ -125,9 +156,9 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 				st.setInt(10, obj.getNr_numero());
 				st.setString(11, obj.getNo_complemento());
 				st.setString(12, obj.getNo_cidade());
-				st.setString(13, obj.getSg_uf());
+				st.setString(13, obj.getUf().getSg_uf());
 				st.setString(14, obj.getNo_observacao());
-				st.setString(15, obj.getNr_cpf_cnpj());
+				st.setString(15, obj.getNr_documento());
 				st.setInt(16,obj.getId());
 
 
@@ -213,9 +244,48 @@ public class FornecedorDaoJDBC implements FornecedorDao {
 		try {
 				st = conn.prepareStatement(
 								"select * from Fornecedor  "
+										+ "left join unidade_federacao "
+								+ " on unidade_federacao.sg_uf = fornecedor.sg_uf"
 								);
 				
 				rs = st.executeQuery();
+				List <Fornecedor> list = new ArrayList<>();
+
+				while (rs.next()) {
+					
+					UF uf = instantiateUF(rs);
+					Fornecedor obj = instantiateFornecedor(rs,uf);
+					list.add(obj);
+				}
+				return list;
+		}
+		catch (SQLException e){
+				throw new  DbException(e.getMessage());
+		}
+		finally {
+				DB.closeStatement(st);
+				DB.closeResultSet(rs);
+		}
+
+	}
+	@Override
+	public List<Fornecedor> findByNome(String no_fornecedor) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+				st = conn.prepareStatement(
+				  			  "select * from fornecedor  "
+							+ " where no_fornecedor like ?"
+								);
+				st.setString(1, ("%" + no_fornecedor + "%"));
+				//st.setString(1, no_cliente);
+				
+				
+
+				rs = st.executeQuery();
+				
+				System.out.println("Veja ---> " + rs.getRow());
 				List <Fornecedor> list = new ArrayList<>();
 
 				while (rs.next()) {

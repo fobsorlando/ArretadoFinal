@@ -32,6 +32,7 @@ public class Cliente implements Serializable  {
 	private Date dth_aleracao;
 	
 	private UF uf;
+	private Sexo sexo;
 
 	
 	
@@ -42,6 +43,12 @@ public class Cliente implements Serializable  {
 		this.nr_documento = nr_documento;
 	}
 	
+	public Sexo getSexo() {
+		return sexo;
+	}
+	public void setSexo(Sexo sexo) {
+		this.sexo = sexo;
+	}
 	public UF getUF() {
 		return uf;
 	}

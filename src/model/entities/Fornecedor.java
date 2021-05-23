@@ -26,8 +26,18 @@ public class Fornecedor implements Serializable  {
 	private String no_cidade;
 	private String sg_uf;
 	private String no_observacao;
-	private String nr_cpf_cnpj;
+	private String nr_documento;
 	
+	private UF uf;
+	
+	public UF getUf() {
+		return uf;
+	}
+
+	public void setUf(UF uf) {
+		this.uf = uf;
+	}
+
 	
 	public Fornecedor() {
 		
@@ -194,12 +204,7 @@ public class Fornecedor implements Serializable  {
 	}
 
 
-	public void setNr_cpf_cgc(String nr_cpf_cnpj) {
-		this.nr_cpf_cnpj = nr_cpf_cnpj;
-	}
-	public String getNr_cpf_cnpj() {
-		return nr_cpf_cnpj;
-	}
+
 
 
 	public void setNo_observacao(String no_observacao) {
@@ -214,6 +219,14 @@ public class Fornecedor implements Serializable  {
 		this.Id = id;
 	}
 
+
+	public String getNr_documento() {
+		return nr_documento;
+	}
+
+	public void setNr_documento(String nr_documento) {
+		this.nr_documento = nr_documento;
+	}
 
 	@Override
 	public int hashCode() {
@@ -240,6 +253,7 @@ public class Fornecedor implements Serializable  {
 			return false;
 		return true;
 	}
+
 
 
 	@Override

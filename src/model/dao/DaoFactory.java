@@ -7,8 +7,10 @@ import model.dao.impl.FornecedorDaoJDBC;
 import model.dao.impl.GrupoDaoJDBC;
 import model.dao.impl.ProdutoDaoJDBC;
 import model.dao.impl.SecaoDaoJDBC;
+import model.dao.impl.SexoDaoJDBC;
 import model.dao.impl.SubGrupoDaoJDBC;
 import model.dao.impl.UFDaoJDBC;
+import model.dao.impl.UnidadeDaoJDBC;
 
 public class DaoFactory {
 	
@@ -50,7 +52,14 @@ public class DaoFactory {
 		
 		return new UFDaoJDBC(DB.getConnection());
 	}
-
+	public static SexoDao createSexoDao() {
+		
+		return new SexoDaoJDBC(DB.getConnection());
+	}
+	public static UnidadeDao createUnidadeDao() {
+		
+		return new UnidadeDaoJDBC(DB.getConnection());
+	}
 
 
 }
