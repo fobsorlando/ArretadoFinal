@@ -1,8 +1,6 @@
 package gui;
 
 import java.net.URL;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +34,7 @@ import model.entities.Grupo;
 import model.entities.Produto;
 import model.entities.Secao;
 import model.entities.SubGrupo;
+import model.entities.Unidade;
 import model.exceptions.ValidationException;
 import model.services.DepartamentoService;
 import model.services.FornecedorService;
@@ -43,6 +42,7 @@ import model.services.GrupoService;
 import model.services.ProdutoService;
 import model.services.SecaoService;
 import model.services.SubGrupoService;
+import model.services.UnidadeService;
 
 public class ProdutoFormController implements Initializable {
 
@@ -54,6 +54,8 @@ public class ProdutoFormController implements Initializable {
 	private GrupoService grupoService;
 	private SubGrupoService subGrupoService;
 	private FornecedorService fornecedorService;
+	private UnidadeService unidadeService;
+
 
 	private List <DataChangeListener> dataChangeListners = new ArrayList<>();
 	
@@ -91,6 +93,9 @@ public class ProdutoFormController implements Initializable {
 	private ComboBox<Fornecedor> comboBoxFornecedor;
 	
 	@FXML
+	private ComboBox<Unidade> comboBoxUnidade;
+	
+	@FXML
 	private Label labelErrorName;
 	
 	@FXML
@@ -110,6 +115,7 @@ public class ProdutoFormController implements Initializable {
 	private ObservableList<Grupo> obsListGrp;
 	private ObservableList<SubGrupo> obsListSubG;
 	private ObservableList<Fornecedor> obsListForn;
+	private ObservableList<Unidade> obsListUni;
 
 	
 	
@@ -120,7 +126,8 @@ public class ProdutoFormController implements Initializable {
 	
 	public void setServices (ProdutoService service, DepartamentoService departamentoService,
 						     SecaoService secaoService, GrupoService grupoService,  
-						     SubGrupoService subGrupoService, FornecedorService fornecedorService) {
+						     SubGrupoService subGrupoService, FornecedorService fornecedorService,
+						     UnidadeService unidadeService) {
 	
 		this.service=service;
 		this.departamentoService=departamentoService;
@@ -128,6 +135,7 @@ public class ProdutoFormController implements Initializable {
 		this.grupoService=grupoService;
 		this.subGrupoService=subGrupoService;
 		this.fornecedorService=fornecedorService;
+		this.unidadeService = unidadeService;
 	}
 	
 	public void subscribeDataChangeListner(DataChangeListener listener) {
@@ -205,6 +213,7 @@ public class ProdutoFormController implements Initializable {
 	    obj.setGrupo(comboBoxGrupo.getValue());
 	    obj.setSubGrupo(comboBoxSubGrupo.getValue());
 	    obj.setFornecedor(comboBoxFornecedor.getValue());
+	    obj.setUnidade(comboBoxUnidade.getValue());
 
 	    	
 		if  (exception.getErrors().size() > 0 ) {
@@ -239,6 +248,7 @@ public class ProdutoFormController implements Initializable {
 		initializeComboBoxGrupo();
 		initializeComboBoxSubGrupo();
 		initializeComboBoxFornecedor();
+		initializeComboBoxUnidade();
 		
 	}
 	
@@ -300,6 +310,13 @@ public class ProdutoFormController implements Initializable {
 			System.out.println(entidade.getFornecedor());
 		    comboBoxFornecedor.setValue(entidade.getFornecedor());
 		}
+		
+		if (entidade.getUnidade() == null) {
+			comboBoxUnidade.getSelectionModel().selectFirst();
+		}
+		else { 
+		    comboBoxUnidade.setValue(entidade.getUnidade());
+		}
 	}
 	
 	public void loadAssociatedObjects() {
@@ -332,6 +349,10 @@ public class ProdutoFormController implements Initializable {
 		List<Fornecedor> listForn = fornecedorService.findAll();
 		obsListForn = FXCollections.observableArrayList(listForn);
 		comboBoxFornecedor.setItems(obsListForn);
+		
+		List<Unidade> listUni = unidadeService.findAll();
+		obsListUni = FXCollections.observableArrayList(listUni);
+		comboBoxUnidade.setItems(obsListUni);
 		
 	}
 	
@@ -415,6 +436,17 @@ public class ProdutoFormController implements Initializable {
 			comboBoxFornecedor.setButtonCell(factoryForn.call(null));
 			
 	}
-
+	private void initializeComboBoxUnidade() {
+		Callback<ListView<Unidade>, ListCell<Unidade>> factoryUni = lv -> new ListCell<Unidade>() {
+			@Override
+			protected void updateItem(Unidade item, boolean empty) {
+				super.updateItem(item, empty);
+				setText(empty ? "" : item.getNo_unidade());
+			}
+		};
+		comboBoxUnidade.setCellFactory(factoryUni);
+		comboBoxUnidade.setButtonCell(factoryUni.call(null));
+		
+}
 	
 }

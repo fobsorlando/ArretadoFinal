@@ -11,6 +11,7 @@ import model.dao.impl.SexoDaoJDBC;
 import model.dao.impl.SubGrupoDaoJDBC;
 import model.dao.impl.UFDaoJDBC;
 import model.dao.impl.UnidadeDaoJDBC;
+import model.dao.impl.VendaDaoJDBC;
 
 public class DaoFactory {
 	
@@ -59,6 +60,11 @@ public class DaoFactory {
 	public static UnidadeDao createUnidadeDao() {
 		
 		return new UnidadeDaoJDBC(DB.getConnection());
+	}
+	
+	public static VendaDao createVendaDao() {
+		
+		return new VendaDaoJDBC(DB.getConnection());
 	}
 
 

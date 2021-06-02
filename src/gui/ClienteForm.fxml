@@ -89,7 +89,7 @@
                </children>
             </GridPane>
             <Label text="CEP" GridPane.rowIndex="8" />
-            <TextField fx:id="txtCep" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+            <TextField fx:id="txtCep"  GridPane.columnIndex="1" GridPane.rowIndex="8" />
             <Label text="Endereço" GridPane.rowIndex="9" />
             <GridPane GridPane.columnIndex="1" GridPane.rowIndex="9">
               <columnConstraints>

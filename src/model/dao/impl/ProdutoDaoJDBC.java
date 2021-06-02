@@ -1,7 +1,6 @@
 package model.dao.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,6 +19,7 @@ import model.entities.Grupo;
 import model.entities.Produto;
 import model.entities.Secao;
 import model.entities.SubGrupo;
+import model.entities.Unidade;
 
 public class ProdutoDaoJDBC implements ProdutoDao {
 	
@@ -36,8 +36,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st = conn.prepareStatement("insert into produto "
 					+ "(no_produto, no_produto_forn, cd_ean13, vl_venda, vl_custo, "
 					+ "id_departamento, id_secao, id_grupo, "
-					+ "id_subgrupo, id_fornecedor) "
-					+ "values (?,?,?,?,?,?,?,?,?,?)",
+					+ "id_subgrupo, id_fornecedor, fl_unidade) "
+					+ "values (?,?,?,?,?,?,?,?,?,?,?)",
 					Statement.RETURN_GENERATED_KEYS
 					);
 			
@@ -51,6 +51,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setInt(8, obj.getGrupo().getId());
 			st.setInt(9, obj.getSubGrupo().getId());
 			st.setInt(10, obj.getFornecedor().getId());
+			st.setString(11, obj.getUnidade().getSg_unidade());
 
 			
 			int rowsAffected = st.executeUpdate();
@@ -84,7 +85,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 					+ "no_produto = ?, no_produto_forn = ?, cd_ean13 = ?, "
 					+ "vl_venda = ?, vl_custo = ?, "
 					+ "id_departamento = ?, id_secao = ?, id_grupo = ?, "
-					+ "id_subgrupo = ?, id_fornecedor = ? "
+					+ "id_subgrupo = ?, id_fornecedor = ?,"
+					+ "fl_unidade = ? "
 					+ "where id = ?"
 					);
 
@@ -99,9 +101,10 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			st.setInt(8, obj.getGrupo().getId());
 			st.setInt(9, obj.getSubGrupo().getId());
 			st.setInt(10, obj.getFornecedor().getId());
-			System.out.println(obj.getSecao().getId());
+			st.setString(11,obj.getUnidade().getSg_unidade());
+			
 
-			st.setInt(11,obj.getId());
+			st.setInt(12,obj.getId());
 			
 			int rowsAffected = st.executeUpdate();
 			
@@ -160,7 +163,9 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				Grupo grp = instantiateGrupo(rs);
 				SubGrupo subG = instantiateSubGrupo(rs);
 				Fornecedor forn = instantiateFornecedor(rs);
-				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn);
+				Unidade uni = instantiateUnidade(rs);
+				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn,uni);
+				
 
 				return obj;
 			}
@@ -180,7 +185,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 													 Secao sec,
 													 Grupo grp,
 													 SubGrupo subG,
-													 Fornecedor forn) throws SQLException {
+													 Fornecedor forn,
+													 Unidade uni) throws SQLException {
 		Produto obj = new Produto();
 		obj.setId(rs.getInt("id"));
 		obj.setNo_produto(rs.getString("no_produto"));
@@ -194,6 +200,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 		obj.setGrupo(grp);
 		obj.setSubGrupo(subG);
 		obj.setFornecedor(forn);
+		obj.setUnidade(uni);
 		//obj.setDth_criacao(new java.util.Date(rs.getTimestamp("dth_criacao").getTime()));
 		
 		
@@ -236,6 +243,13 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 			dep.setNo_departamento(rs.getString("no_departamento"));
 			return dep;
 	}
+	
+	private Unidade instantiateUnidade(ResultSet rs) throws SQLException {
+	 	Unidade uni = new Unidade();
+		uni.setSg_unidade(rs.getString("sg_unidade"));
+		uni.setNo_unidade(rs.getString("no_unidade"));
+		return uni;
+}
 
 	@Override
 	public List<Produto> findAll() {
@@ -250,6 +264,7 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 					+ " left join grupo on grupo.id = produto.id_grupo "
 					+ " left join subgrupo on subgrupo.id = produto.id_subgrupo "
 					+ " left join fornecedor on fornecedor.id = produto.id_subgrupo "
+					+ " left join unidade on unidade.sg_unidade = produto.fl_unidade"
 				);
 			
 			rs = st.executeQuery();
@@ -272,7 +287,8 @@ public class ProdutoDaoJDBC implements ProdutoDao {
 				Grupo grp = instantiateGrupo(rs);
 				SubGrupo subG = instantiateSubGrupo(rs);
 				Fornecedor forn = instantiateFornecedor(rs);
-				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn);
+				Unidade uni = instantiateUnidade(rs);
+				Produto obj = instantiateProduto(rs,dep,sec,grp,subG,forn,uni);
 				list.add(obj);
 			}
 			return list;

@@ -27,6 +27,8 @@ public class Produto implements Serializable {
 	private SubGrupo subGrupo;
 	
 	private Fornecedor fornecedor;
+	
+	private Unidade unidade;
 
 	
 	public Produto() {
@@ -45,7 +47,8 @@ public class Produto implements Serializable {
  
 	public Produto(String no_produto, String no_produto_forn, Long cd_ean13, Double vl_venda, Double vl_custo,
 			Departamento departamento, Secao secao, Grupo grupo,
-			SubGrupo subGrupo, Fornecedor fornecedor) {
+			SubGrupo subGrupo, Fornecedor fornecedor,
+			Unidade unidade) {
 		super();
 		this.no_produto = no_produto;
 		this.no_produto_forn = no_produto_forn;
@@ -59,6 +62,7 @@ public class Produto implements Serializable {
 		this.grupo = grupo;
 		this.subGrupo = subGrupo;
 		this.fornecedor = fornecedor;
+		this.unidade = unidade;
 	}
 
 
@@ -165,6 +169,14 @@ public class Produto implements Serializable {
 
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	
+	public Unidade getUnidade() {
+		return unidade;
+	}
+
+	public void setUnidade(Unidade unidade) {
+		this.unidade = unidade;
 	}
 
 	@Override

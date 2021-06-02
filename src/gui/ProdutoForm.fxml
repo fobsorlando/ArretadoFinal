@@ -63,7 +63,7 @@
             <ComboBox fx:id="comboBoxGrupo" prefHeight="24.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="9" />
             <ComboBox fx:id="comboBoxSubGrupo" prefHeight="24.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="10" />
             <ComboBox fx:id="comboBoxFornecedor" prefHeight="24.0" prefWidth="290.0" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-            <TextField maxWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <ComboBox fx:id="comboBoxUnidade" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
          </children>
       </GridPane>
    </children>

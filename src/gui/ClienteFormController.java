@@ -10,6 +10,10 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextField;
+import javax.swing.text.MaskFormatter;
+
 import db.DbException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
@@ -83,6 +87,9 @@ public class ClienteFormController implements Initializable {
 	
 	@FXML
 	private TextField txtCep;
+	
+	
+	
 	
 	@FXML
 	private TextField txtNumero;

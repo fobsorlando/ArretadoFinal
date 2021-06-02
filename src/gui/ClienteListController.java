@@ -38,6 +38,7 @@ import model.services.UFService;
 public class ClienteListController implements Initializable, DataChangeListener {
 
 	private ClienteService service;
+	private boolean isVenda;
 
 	@FXML
 	private TableView<Cliente> tableViewCliente;
@@ -132,6 +133,10 @@ public class ClienteListController implements Initializable, DataChangeListener 
 	}
 
 
+	public void setFlagVenda(boolean isVenda) {
+		this.isVenda = isVenda;
+	}
+	
 	public void setClienteService(ClienteService service) {
 		this.service = service;
 	}
@@ -166,8 +171,15 @@ public class ClienteListController implements Initializable, DataChangeListener 
 
 		obsList = FXCollections.observableArrayList(list);
 		tableViewCliente.setItems(obsList);
-		initEditButtons(); // Acrescenta botão para alterar
-		initRemoveButtons(); // Botão para remover
+
+		System.out.println("Is Venda " + isVenda);
+		if (isVenda == true) {
+			initSelButtons();
+		}
+		else {
+			initEditButtons(); // Acrescenta botão para alterar
+			initRemoveButtons(); // Botão para remover
+		}
 
 	}
 
@@ -232,7 +244,25 @@ public class ClienteListController implements Initializable, DataChangeListener 
 			}
 		});
 	}
+	private void initSelButtons() {
+		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
+		tableColumnEDIT.setCellFactory(param -> new TableCell<Cliente, Cliente>() {
+			private final Button button = new Button("Sel");
 
+			@Override
+			protected void updateItem(Venda obj, boolean empty) {
+				super.updateItem(obj, empty);
+				if (obj == null) {
+					setGraphic(null);
+					return;
+				}
+				setGraphic(button);
+				button.setOnAction(
+						//event -> createDialogForm(obj, "/gui/VendaForm.fxml", Utils.currentStage(event)));
+						event -> setCliente(obj));
+			}
+		});
+	}
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
 		tableColumnREMOVE.setCellFactory(param -> new TableCell<Cliente, Cliente>() {

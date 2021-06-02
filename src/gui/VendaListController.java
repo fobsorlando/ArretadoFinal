@@ -2,13 +2,10 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import application.Main;
-import db.DbIntegrityException;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
@@ -22,7 +19,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -30,61 +26,43 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import model.entities.Produto;
-import model.services.DepartamentoService;
-import model.services.FornecedorService;
-import model.services.GrupoService;
-import model.services.ProdutoService;
-import model.services.SecaoService;
-import model.services.SubGrupoService;
-import model.services.UnidadeService;
+import model.entities.Cliente;
+import model.entities.Venda;
+import model.services.VendaService;
 
-public class ProdutoListController implements Initializable, DataChangeListener {
+public class VendaListController implements Initializable, DataChangeListener {
 
-	private ProdutoService service;
+	private VendaService service;
 
 	@FXML
-	private TableView<Produto> tableViewProduto;
+	private TableView<Venda> tableViewVenda;
 
 	@FXML
-	private TableColumn<Produto, Integer> tableColumnID;
+	private TableColumn<Venda, Integer> tableColumnID;
 
 	@FXML
-	private TableColumn<Produto, String> tableColumnName;
+	private TableColumn<Venda, String> tableColumnName;
 	
 	@FXML
-	private TableColumn<Produto, String> tableColumnEan;
+	private TableColumn <Venda, Venda> tableColumnREMOVE;
 	
 	@FXML
-	private TableColumn<Produto, Double> tableColumnVlVenda;
-	
-	@FXML
-	private TableColumn<Produto, Double> tableColumnVlCusto;
-	
-	@FXML
-	private TableColumn<Produto, Date> tableColumnDtCriacao;
-	
-	@FXML
-	private TableColumn <Produto, Produto> tableColumnREMOVE;
-	
-	@FXML 
-	private TableColumn <Produto, Produto> tableColumnEDIT;
-	
-
+	private TableColumn <Venda, Venda> tableColumnEDIT;
 
 	@FXML
 	private Button btNovo;
 
-	private ObservableList<Produto> obsList;
+	private ObservableList<Venda> obsList;
 
 	@FXML
 	public void onBtNovoAction(ActionEvent event) {
 		Stage parentStage = Utils.currentStage(event);
-		Produto obj = new Produto(); // criar vazio
-		createDialogForm(obj, "/gui/ProdutoForm.fxml", parentStage);
+		Venda obj = new Venda(); // criar vazio
+		obj.setCliente(new Cliente());
+		createDialogForm(obj, "/gui/VendaForm.fxml", parentStage);
 	}
 
-	public void setProdutoService(ProdutoService service) {
+	public void setVendaService(VendaService service) {
 		this.service = service;
 	}
 
@@ -94,22 +72,13 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 	}
 
 	private void initializeNodes() {
-		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("id"));
-		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_produto"));
-		tableColumnVlVenda.setCellValueFactory(new PropertyValueFactory<>("vl_venda"));
-		Utils.formatTableColumnDouble(tableColumnVlVenda, 2);
-		tableColumnVlCusto.setCellValueFactory(new PropertyValueFactory<>("vl_custo"));
-		Utils.formatTableColumnDouble(tableColumnVlCusto, 2);
-		
-		tableColumnDtCriacao.setCellValueFactory(new PropertyValueFactory<>("dth_criacao"));
-		Utils.formatTableColumnDate(tableColumnDtCriacao, "dd/MM/YYYY");
-		tableColumnEan.setCellValueFactory(new PropertyValueFactory<>("cd_ean13"));
+		tableColumnID.setCellValueFactory(new PropertyValueFactory<>("sg_venda"));
+		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("no_venda"));
 
-		
 		Stage stage = (Stage) Main.getMainScene().getWindow();
 
-		// Produto acompanhar tamanho do menu
-		tableViewProduto.prefHeightProperty().bind(stage.heightProperty());
+		// Venda acompanhar tamanho do menu
+		tableViewVenda.prefHeightProperty().bind(stage.heightProperty());
 	}
 
 	public void updateTableView() {
@@ -118,31 +87,25 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			throw new IllegalStateException("Serice veio NULLO");
 		}
 
-		List<Produto> list = service.findAll();
+		List<Venda> list = service.findAll();
 		obsList = FXCollections.observableArrayList(list);
-		tableViewProduto.setItems(obsList);
- 	    initEditButtons(); // Acrescenta botão para alterar
- 		initRemoveButtons(); // Botão para remover
+		tableViewVenda.setItems(obsList);
+		initEditButtons(); // Acrescenta botão para alterar
+		//initRemoveButtons(); // Botão para remover
 
 	}
 
-	private void createDialogForm(Produto obj, String absoluteName, Stage parentStage) {
+	private void createDialogForm(Venda obj, String absoluteName, Stage parentStage) {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 
 			// Pegar controldor da tela carregada acima
-			ProdutoFormController controller = loader.getController();
-			controller.setProduto(obj);
-			controller.setServices(new ProdutoService(), new DepartamentoService(),
-								   new SecaoService(), new GrupoService(),
-								   new SubGrupoService() , new FornecedorService(),
-								   new UnidadeService()); // Inetando dependencia do servico
-			
-			controller.loadAssociatedObjects(); // Carregar associados (ex. departamento)
-						
+			VendaFormController controller = loader.getController();
+			controller.setVenda(obj);
+			controller.setVendaService(new VendaService()); // Inetando dependencia do servico
 			controller.subscribeDataChangeListner(this);// Inscrever classe (ela mesma-this) para escutar evento
-												// ONDATACHAGED
+														// ONDATACHAGED
 			controller.updateFormData(); // Carrega os dados do OBJ no formulario
 
 			// novo Stage pq a janela vai ser modal.
@@ -150,7 +113,7 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			// uma janela em cima da outra
 
 			Stage dialogStage = new Stage(); // novo palco
-			dialogStage.setTitle("Incuir Produto");
+			dialogStage.setTitle("Incuir Venda");
 			dialogStage.setScene(new Scene(pane)); // Nova scena, que é o pane feito acima
 			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
@@ -158,10 +121,8 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			dialogStage.showAndWait();
 
 		} catch (IOException e) {
-			// colocar nos outros 
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			Alerts.showAlert("ERRO IO", "ERRO CARREGA VIEW(E02)", e.getMessage(), AlertType.ERROR);
-			
 
 		}
 	}
@@ -174,11 +135,11 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 
 	private void initEditButtons() {
 		tableColumnEDIT.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnEDIT.setCellFactory(param -> new TableCell<Produto, Produto>() {
+		tableColumnEDIT.setCellFactory(param -> new TableCell<Venda, Venda>() {
 			private final Button button = new Button("Alterar");
 
 			@Override
-			protected void updateItem(Produto obj, boolean empty) {
+			protected void updateItem(Venda obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -186,18 +147,19 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 				}
 				setGraphic(button);
 				button.setOnAction(
-						event -> createDialogForm(obj, "/gui/ProdutoForm.fxml", Utils.currentStage(event)));
+						event -> createDialogForm(obj, "/gui/VendaForm.fxml", Utils.currentStage(event)));
 			}
 		});
 	}
 
+	/*
 	private void initRemoveButtons() {
 		tableColumnREMOVE.setCellValueFactory(param -> new ReadOnlyObjectWrapper<>(param.getValue()));
-		tableColumnREMOVE.setCellFactory(param -> new TableCell<Produto, Produto>() {
+		tableColumnREMOVE.setCellFactory(param -> new TableCell<Venda, Venda>() {
 			private final Button button = new Button("Exclui");
 
 			@Override
-			protected void updateItem(Produto obj, boolean empty) {
+			protected void updateItem(Venda obj, boolean empty) {
 				super.updateItem(obj, empty);
 				if (obj == null) {
 					setGraphic(null);
@@ -210,7 +172,7 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 		});
 	}
 	
-	private void removeEntity(Produto obj) {
+	private void removeEntity(Venda obj) {
 		Optional <ButtonType> result =   Alerts.showConfirmation("Excluí", "Confirma Exclusão?");
 		
 		if (result.get() == ButtonType.OK) {
@@ -222,10 +184,11 @@ public class ProdutoListController implements Initializable, DataChangeListener 
 			 updateTableView();
 			}
 			catch (DbIntegrityException e) {
-				Alerts.showAlert("Erro Excluíndo Produto", null, e.getMessage(), AlertType.ERROR);
+				Alerts.showAlert("Erro Excluíndo Venda", null, e.getMessage(), AlertType.ERROR);
 			}
 		}
 		return ;
 	}
+	*/
 }
  
